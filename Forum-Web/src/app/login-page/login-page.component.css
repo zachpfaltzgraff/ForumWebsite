@@ -30,8 +30,8 @@
     transform: translateY(-150px);
     transition: all 0.8s ease-in-out;
 }
-.login .signuplabel{
-    color: #302b63;
+.login label{
+    color: #463f94;
     margin-bottom: 20%;
 }
 .signup .signuplabel {

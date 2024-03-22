@@ -8,7 +8,6 @@ import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-
 @Component({
   selector: 'app-login-page',
   standalone: true,
@@ -21,7 +20,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular
     CommonModule
   ],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
   constructor(private messageService: MessageService) {}
@@ -63,10 +62,10 @@ export class LoginPageComponent {
     email: new FormControl('', [Validators.email, Validators.required]),
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', Validators.required)
-  })
+  });
 
   loginForm = new FormGroup( {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', Validators.required)
-  })
+  });
 }

@@ -1,1 +1,43 @@
-<p-button label="TESTING"></p-button>
+<div class="wrapper">
+    <input type="checkbox" id="checkbox" aria-hidden="true">
+
+    <div class="signup">
+        <form action="">
+            <label for="checkbox" class="signuplabel" aria-hidden="true">Sign Up</label>
+
+            <p-floatLabel>
+                <input id="username" type="text" pInputText/>
+                <label for="username">Username</label>
+            </p-floatLabel>
+
+            <p-floatLabel>
+                <input id="email" type="email" pInputText/>
+                <label for="email">Email</label>
+            </p-floatLabel>
+
+            <p-floatLabel>
+                <p-password [toggleMask]="true" ></p-password>
+                <label for="email">Password</label>
+            </p-floatLabel>
+
+            <p-button type="submit" label="Sign Up"></p-button>
+        </form>
+    </div>
+
+    <div class="login">
+        <label for="checkbox" class="signuplabel" aria-hidden="true">Login</label>
+        <form action="">
+            <p-floatLabel>
+                <input id="username" type="text" pInputText/>
+                <label for="username">Username</label>
+            </p-floatLabel>
+
+            <p-floatLabel>
+                <p-password [toggleMask]="true"></p-password>
+                <label for="email">Password</label>
+            </p-floatLabel>
+
+            <p-button type="submit" label="Login"></p-button>
+        </form>
+    </div>
+</div>

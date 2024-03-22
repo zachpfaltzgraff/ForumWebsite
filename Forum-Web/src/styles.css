@@ -1,8 +1,16 @@
-@import "primeng/resources/themes/bootstrap4-dark-blue/theme.css";
+
+@import "primeng/resources/themes/lara-dark-purple/theme.css";
 @import "primeng/resources/primeng.css";
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
     margin: 0;
     background-color: #4e4e4e;
-    font-family: sans-serif;
+    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    font-family:'Jost', sans-serif;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

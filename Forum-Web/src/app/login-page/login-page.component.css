@@ -1,4 +1,11 @@
 .wrapper {
+    margin-top: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signupbox {
     width: 350px;
     height: 500px;
     background: linear-gradient(to top, #0f0c29, #302b63, #24243e);

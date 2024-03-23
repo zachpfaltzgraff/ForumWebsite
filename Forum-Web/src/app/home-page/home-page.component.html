@@ -1,1 +1,22 @@
-<p>home-page works!</p>
+<div class="wrapper">
+    <div class="create-post">
+        <form action="">
+            <input type="text" pInputText placeholder="Title..."/>
+
+            <textarea rows="7" cols="30" pInputTextarea placeholder="Create Post..."></textarea>
+
+        </form>
+
+        <p-button (onClick)="createPost()" [rounded]="true" label="Create Post"></p-button>
+    </div>
+
+    <div class="post-feed">
+        <form action="">
+            <input type="text" pInputText placeholder="Title..."/>
+
+            <textarea rows="7" cols="30" pInputTextarea placeholder="Create Post..."></textarea>
+
+            
+        </form>
+    </div>
+</div>

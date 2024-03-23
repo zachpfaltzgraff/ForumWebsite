@@ -35,7 +35,8 @@ export class HeaderBarComponent {
   async handleClick() {
     if (this.isLoggedIn) {
       await handleSignOut();
-      this.router.navigate(['']);
+
+      this.router.navigate(['/login']);
     } else {
       this.router.navigate(['/login']);
     }

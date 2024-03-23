@@ -49,6 +49,7 @@ export class LoginPageComponent {
       console.log(formData);
 
       await handleSignUp({ username: formData.username, password: formData.password, email: formData.email});
+      
       this.showCode = true;
 
     } else {

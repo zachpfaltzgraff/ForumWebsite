@@ -12,7 +12,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.8s ease-in-out; /* Add transition for smooth transform */
+    transition: transform 0.8s ease-in-out;
 }
 
 .signuplabel {
@@ -23,7 +23,7 @@
     font-weight: bold;
 }
 
-.code-confirm, .login {
+.login {
     padding: 5%;
     height: 460px;
     background-color:  white;
@@ -31,11 +31,23 @@
     transform: translateY(-150px);
 }
 
-.login {
+
+.code-confirm {
+    color: #463f94;
     padding: 5%;
     height: 460px;
     background-color:  white;
     border-radius: 60% / 10%;
+    opacity: 0;
+    visibility: hidden; 
+    transform: translateY(-325px);
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+p-inputOtp, p {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .login label{
@@ -88,6 +100,8 @@ input {
     transform: scale(1);
 }
 
-#checkbox:checked ~ .signup .code-confirm, #checkbox:checked ~ .login .code-confirm {
-    transform: translateY(0); /* Slide up when visible */
+#checkbox:checked ~ .signup .code-confirm {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }

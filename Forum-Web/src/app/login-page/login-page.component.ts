@@ -9,6 +9,8 @@ import { InputOtpModule } from 'primeng/inputotp';
 import { CommonModule } from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { signUp } from 'aws-amplify/auth';
+import { confirmSignUp, type ConfirmSignUpInput } from 'aws-amplify/auth';
+import { Router } from '@angular/router'
 
 type SignUpParameters = {
   username: string;
@@ -32,11 +34,11 @@ type SignUpParameters = {
   styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, private router: Router) {}
 
   showCode: boolean = false;
-
-  onSignUp() {
+  
+  async onSignUp() {
     if (this.signupForm.valid) {
       console.log("valid form");
       const formData = {
@@ -46,24 +48,40 @@ export class LoginPageComponent {
       }
       console.log(formData);
 
-      handleSignUp({ username: formData.username, password: formData.password, email: formData.email });
+      await handleSignUp({ username: formData.username, password: formData.password, email: formData.email});
       this.showCode = true;
-
-      // make verify page show
 
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
     }
   }
 
-  onLogin() {
+  async onLogin() {
     if (this.loginForm.valid) {
       console.log("valid form")
       const formData = {
-        username: this.loginForm.value.username,
-        password: this.loginForm.value.password,
+        username: this.loginForm.value.username ?? '',
+        password: this.loginForm.value.password ?? '',
       }
-      console.log(formData);
+
+      await handleSignIn({username: formData.username, password: formData.password})
+      console.log("signed in");
+      this.router.navigate(['']);
+      
+    } else {
+      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
+    }
+  }
+
+  async onConfirm() {
+    if (this.confirmCodeForm.valid) {
+      const formData = {
+        username: this.signupForm.value.username ?? '',
+        code: this.confirmCodeForm.value.code ?? '',
+      }
+
+      await handleSignUpConfirmation({username: formData.username, confirmationCode: formData.code});
+      console.log("Confirmation complete")
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
@@ -82,12 +100,11 @@ export class LoginPageComponent {
   });
 
   confirmCodeForm = new FormGroup({
-    email: new FormControl(this.signupForm.value.email, [Validators.required]),
     code: new FormControl(null, Validators.required),
   })
 }
 
-async function handleSignUp({
+async function handleSignUp(this: any, {
   username,
   password,
   email,
@@ -105,7 +122,31 @@ async function handleSignUp({
 
     console.log(userId);
   } catch (error) {
+    alert(error);
     console.log('error signing up:', error);
-    // Handle error here
+  }
+}
+
+async function handleSignUpConfirmation({
+  username,
+  confirmationCode
+}: ConfirmSignUpInput) {
+  try {
+    const { isSignUpComplete, nextStep } = await confirmSignUp({
+      username,
+      confirmationCode
+    });
+  } catch (error) {
+    console.log('error confirming sign up', error);
+  }
+}
+
+import { signIn, type SignInInput } from 'aws-amplify/auth';
+
+async function handleSignIn({ username, password }: SignInInput) {
+  try {
+    const { isSignedIn, nextStep } = await signIn({ username, password });
+  } catch (error) {
+    console.log('error signing in', error);
   }
 }

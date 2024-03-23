@@ -5,7 +5,7 @@ import cdkOutput from '../../../ForumWebsiteCDK/output.json';
 import { Amplify } from 'aws-amplify';
 
 bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+  .catch((err) => console.error("ERROR:" , err));
 
     Amplify.configure({
       Auth: {

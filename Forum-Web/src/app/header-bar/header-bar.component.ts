@@ -9,5 +9,6 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './header-bar.component.css'
 })
 export class HeaderBarComponent {
-  
+ 
 }
+

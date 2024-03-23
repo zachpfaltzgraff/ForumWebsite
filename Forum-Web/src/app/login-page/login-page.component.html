@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <input type="checkbox" id="checkbox" aria-hidden="true">
+    <input type="checkbox" id="checkbox" aria-hidden="true" [disabled]="showCode">
 
     <div class="signup">
         <form action="" [formGroup]="signupForm" (ngSubmit)="onSignUp()">
@@ -23,9 +23,14 @@
             <p-button type="submit" label="Sign Up"></p-button>
         </form>
 
-        <div class="code-confirm" [hidden]="!showCode">
-            <form action="">
-                <p-inputOtp [integerOnly]="true" [length]="6"></p-inputOtp>
+        <div class="code-confirm" [ngStyle]="{'opacity': showCode ? 1 : 0, 'visibility': showCode ? 'visible' : 'hidden'}">
+            <form action="" [formGroup]="confirmCodeForm" (ngSubmit)="onConfirm()">
+                <label for="checkbox" class="signuplabel" aria-hidden="true">Verify</label>
+                <p>A verification code was sent to your email</p>
+
+                <p-inputOtp [integerOnly]="true" [length]="6" formControlName="code"></p-inputOtp>
+
+                <p-button type="submit" label="Confirm"></p-button>
             </form>
         </div>
     </div>

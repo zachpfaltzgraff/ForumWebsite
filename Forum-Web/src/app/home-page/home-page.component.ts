@@ -12,8 +12,15 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
+  showCreatePost: boolean = false;
+
   createPost() {
 
+  }
+
+  toggleCreatePost() {
+    console.log(1)
+    this.showCreatePost = true;
   }
 
   postForm = new FormGroup({

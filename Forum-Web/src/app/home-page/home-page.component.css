@@ -6,7 +6,18 @@
     flex-direction: column;
 }
 
+.create-button {
+    margin-top: 10px;
+    position: relative;
+    width: 800px;
+    height: 65px;
+    border-radius: 30px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+    background-color: #0f0c29; 
+}
+
 .create-post {
+    margin-top: 10px;
     position: relative;
     width: 800px;
     height: 300px;

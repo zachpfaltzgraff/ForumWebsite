@@ -1,5 +1,10 @@
 <div class="wrapper">
-    <div class="create-post">
+
+    <div class="create-button" [hidden]="showCreatePost">
+        <p-button [rounded]="true" label="Create Post" (onClick)="toggleCreatePost()"></p-button>
+    </div>
+
+    <div class="create-post" [hidden]="!showCreatePost">
         <form action="">
             <input type="text" pInputText placeholder="Title..."/>
 
@@ -16,7 +21,7 @@
 
             <textarea rows="7" cols="30" pInputTextarea placeholder="Create Post..."></textarea>
 
-            
+
         </form>
     </div>
 </div>

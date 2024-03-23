@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { getCurrentUser } from 'aws-amplify/auth';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -12,17 +14,27 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
+  constructor(private router: Router) {};
+
   showCreatePost: boolean = false;
 
   createPost() {
 
   }
 
-  toggleCreatePost() {
-    console.log(1)
-    this.showCreatePost = true;
-  }
+  async toggleCreatePost() {
+    try {
+      const {username, userId, signInDetails } = await getCurrentUser();
+      console.log(`The username: ${username}`);
+      console.log(`The userId: ${userId}`);
+      console.log(`The signInDetails: ${signInDetails}`);
 
+      this.showCreatePost = true;
+    } catch (error) {
+      console.log(error);
+      this.router.navigate(['/login']);
+    }
+  }
   postForm = new FormGroup({
     title: new FormControl('', Validators.required),
     body: new FormControl('', Validators.required)

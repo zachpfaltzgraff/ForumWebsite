@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { AuthGuardService } from '../../auth-guard.service';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { signOut } from 'aws-amplify/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-bar',
@@ -12,6 +12,8 @@ import { signOut } from 'aws-amplify/auth';
   styleUrl: './header-bar.component.css'
 })
 export class HeaderBarComponent {
+  constructor(private router: Router) {};
+
   isLoggedIn: boolean = false;
 
   ngOnInit() {
@@ -21,23 +23,23 @@ export class HeaderBarComponent {
   async currentUser() {
     try {
       const {username, userId, signInDetails } = await getCurrentUser();
-      console.log(`The username: ${username}`);
-      console.log(`The userId: ${userId}`);
-      console.log(`The signInDetails: ${signInDetails}`);
 
       this.isLoggedIn = true;
+
     } catch (error) {
-      console.log(error);
       this.isLoggedIn = false;
+      console.log(error);
     }
   }
 
-  SignOut() {
-    console.log("signing out")
-    handleSignOut();
-    this.isLoggedIn = false;
+  async handleClick() {
+    if (this.isLoggedIn) {
+      await handleSignOut();
+      this.router.navigate(['']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
- 
 }
 
 async function handleSignOut() {

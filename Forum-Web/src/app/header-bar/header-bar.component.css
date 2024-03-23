@@ -18,9 +18,8 @@
     width: fit-content;
     margin-top: 10px;
 }
-.left a{
+.left{
     margin-right: 5px;
-    font-size: 40px;
     scale: 1;
     display: flex;
     align-items: center;

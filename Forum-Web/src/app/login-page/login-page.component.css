@@ -1,5 +1,3 @@
-
-
 .wrapper {
     width: 350px;
     height: 500px;
@@ -14,6 +12,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    transition: transform 0.8s ease-in-out; /* Add transition for smooth transform */
 }
 
 .signuplabel {
@@ -24,19 +23,26 @@
     font-weight: bold;
 }
 
-.login {
+.code-confirm, .login {
     padding: 5%;
     height: 460px;
     background-color:  white;
     border-radius: 60% / 10%;
     transform: translateY(-150px);
-    transition: all 0.8s ease-in-out;
 }
+
+.login {
+    padding: 5%;
+    height: 460px;
+    background-color:  white;
+    border-radius: 60% / 10%;
+}
+
 .login label{
     color: #463f94;
     margin-bottom: 20%;
-
 }
+
 .signup .signuplabel {
     margin-top: 20%;
 }
@@ -80,4 +86,8 @@ input {
 
 #checkbox:checked ~ .login label {
     transform: scale(1);
+}
+
+#checkbox:checked ~ .signup .code-confirm, #checkbox:checked ~ .login .code-confirm {
+    transform: translateY(0); /* Slide up when visible */
 }

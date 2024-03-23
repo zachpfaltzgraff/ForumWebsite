@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@aws-amplify/ui-angular": "^5.0.12",
+    "auth": "^1.0.2",
+    "aws-amplify": "^6.0.21",
     "primeng": "^17.12.0"
   }
 }

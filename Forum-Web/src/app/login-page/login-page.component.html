@@ -22,6 +22,12 @@
 
             <p-button type="submit" label="Sign Up"></p-button>
         </form>
+
+        <div class="code-confirm" [hidden]="!showCode">
+            <form action="">
+                <p-inputOtp [integerOnly]="true" [length]="6"></p-inputOtp>
+            </form>
+        </div>
     </div>
 
     <div class="login">

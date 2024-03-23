@@ -8,6 +8,7 @@
     </div>
 
     <div class="left">
-        <a href="/login"><p-button label="Sign Up" [outlined]="true"></p-button></a>
+        <a href="/login"><p-button label="Sign Up" [outlined]="true" [hidden]="isLoggedIn"></p-button></a>
+        <a href=""><p-button label="Sign Out" [outlined]="true" [hidden]="!isLoggedIn" (onClick)="SignOut()"></p-button></a>
     </div>
 </div>

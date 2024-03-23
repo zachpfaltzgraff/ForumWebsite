@@ -80,8 +80,10 @@ export class LoginPageComponent {
         code: this.confirmCodeForm.value.code ?? '',
       }
 
-      await handleSignUpConfirmation({username: formData.username, confirmationCode: formData.code});
+      await handleSignUpConfirmation({username: formData.username, confirmationCode: formData.code}, this.router);
       console.log("Confirmation complete")
+      console.log(formData.username + ' ' + this.signupForm.value.password)
+      await handleSignIn({username: formData.username, password: this.signupForm.value.password ?? ''})
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
@@ -130,14 +132,16 @@ async function handleSignUp(this: any, {
 async function handleSignUpConfirmation({
   username,
   confirmationCode
-}: ConfirmSignUpInput) {
+}: ConfirmSignUpInput, router: Router) {
   try {
     const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
       confirmationCode
     });
   } catch (error) {
+    alert(error)
     console.log('error confirming sign up', error);
+    router.navigate(['']);
   }
 }
 

@@ -15,6 +15,6 @@ bootstrapApplication(AppComponent, appConfig)
           signUpVerificationMethod: 'code',
         }
       }
-    });
+    }); 
 
     const currentConfig = Amplify.getConfig();

@@ -8,7 +8,15 @@ import { CommonModule } from '@angular/common';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(),
-  MessageService, BrowserAnimationsModule, CommonModule, BrowserModule, provideAnimations()]
+  MessageService, 
+  BrowserAnimationsModule, 
+  CommonModule, 
+  BrowserModule, 
+  provideAnimations(),
+  AmplifyAuthenticatorModule
+  ]
 };

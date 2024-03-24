@@ -5,6 +5,9 @@ import { getCurrentUser } from 'aws-amplify/auth';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure(Amplify.getConfig());
 
 @Component({
   selector: 'app-home-page',

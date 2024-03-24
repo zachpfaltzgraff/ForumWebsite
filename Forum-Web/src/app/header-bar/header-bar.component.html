@@ -7,12 +7,5 @@
         <a href="">Contact Us</a>
     </div>
 
-    <div class="left" (click)="handleClick()">
-        <div class="sign-up-button" [hidden]="isLoggedIn">
-            <p-button label="Sign Up" [outlined]="true"></p-button>
-        </div>
-        <div class="account-button" [hidden]="!isLoggedIn">
-            <p-button label="Sign Out" [outlined]="true"></p-button>
-        </div>
-    </div>
+    <p-button label="Sign Up" [outlined]="true" (onClick)="handleClick()"></p-button>
 </div>

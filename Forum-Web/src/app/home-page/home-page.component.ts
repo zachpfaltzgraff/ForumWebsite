@@ -20,9 +20,18 @@ export class HomePageComponent {
   constructor(private router: Router) {};
 
   showCreatePost: boolean = false;
+  hideCreatePost: boolean = false;
 
   createPost() {
 
+  }
+
+  async deleteForm() {
+    this.hideCreatePost = true;
+
+    await new Promise(resolve => setTimeout(resolve, 300));
+    this.showCreatePost = false;
+    this.hideCreatePost = false;
   }
 
   async toggleCreatePost() {

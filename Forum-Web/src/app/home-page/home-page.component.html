@@ -4,7 +4,8 @@
         <p-button [rounded]="true" label="Create Post" (onClick)="toggleCreatePost()"></p-button>
     </div>
 
-    <div class="create-post" [hidden]="!showCreatePost">
+    <div class="create-post" [hidden]="!showCreatePost"
+    [class.dropDown]="showCreatePost" [class.dropUp]="hideCreatePost">
         <form action="">
             <input type="text" pInputText placeholder="Title..."/>
 
@@ -12,7 +13,10 @@
 
         </form>
 
-        <p-button (onClick)="createPost()" [rounded]="true" label="Create Post"></p-button>
+        <div class="form-buttons">
+            <p-button (onClick)="deleteForm()" label="Cancel" [rounded]="true" severity="secondary"></p-button>
+            <p-button (onClick)="createPost()" [rounded]="true" label="Create Post"></p-button>
+        </div>
     </div>
 
     <div class="post-feed">

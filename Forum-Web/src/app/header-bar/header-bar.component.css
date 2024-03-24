@@ -19,11 +19,9 @@
     margin-top: 10px;
 }
 .left{
-    margin-right: 5px;
-    scale: 1;
-    display: flex;
+    margin: 10px;
     align-items: center;
-    border: none;
+    justify-content: center;
 }
 
 a {

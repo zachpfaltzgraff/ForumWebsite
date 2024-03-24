@@ -14,9 +14,30 @@ import { Router } from '@angular/router';
 export class HeaderBarComponent {
   constructor(private router: Router) {};
 
-  handleClick() {
-    console.log(1)
-    this.router.navigate(['login'])
+  isSignedIn: boolean = false;
+
+  async ngOnInit() {
+      try {
+        const { username, userId, signInDetails } = await getCurrentUser();
+        console.log(`The username: ${username}`);
+        console.log(`The userId: ${userId}`);
+        console.log(`The signInDetails: ${signInDetails}`);
+        this.isSignedIn = true;
+
+      } catch (err) {
+        this.isSignedIn = false;
+        console.log(err);
+      }
+  }
+
+  async handleClick() {
+    if (this.isSignedIn) {
+      await handleSignOut();
+      this.isSignedIn = false;
+      alert("Signed Out")
+    } else {
+      this.router.navigate(['login'])
+    }
   }
 }
 

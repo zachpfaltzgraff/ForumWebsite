@@ -2,7 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "resolveJsonModule": true,
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -19,6 +18,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
+    "resolveJsonModule": true,
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",

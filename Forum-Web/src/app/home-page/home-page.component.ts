@@ -49,7 +49,9 @@ export class HomePageComponent {
   }
   postForm = new FormGroup({
     title: new FormControl('', Validators.required),
-    body: new FormControl('', Validators.required)
+    body: new FormControl('', Validators.required),
+    likeCount: new FormControl(0),
+    saveCount: new FormControl(0),
   });
 
   existingPostForm = new FormGroup({

@@ -5,11 +5,11 @@
     </div>
 
     <div class="create-post" [hidden]="!showCreatePost"
-    [class.dropDown]="showCreatePost" [class.dropUp]="hideCreatePost">
-        <form action="">
-            <input type="text" pInputText placeholder="Title..."/>
+        [class.dropDown]="showCreatePost" [class.dropUp]="hideCreatePost">
+        <form action="" [formGroup]="postForm">
+            <input type="text" pInputText placeholder="Title..." formControlName="title"/>
 
-            <textarea rows="7" cols="30" pInputTextarea placeholder="Create Post..."></textarea>
+            <textarea rows="7" cols="30" pInputTextarea placeholder="Create Post..." formControlName="body"></textarea>
 
         </form>
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="post-feed">
-        <form action="">
+        <form action="" [formGroup]="existingPostForm">
             <input type="text" pInputText/>
 
             <textarea rows="7" cols="30" pInputTextarea></textarea>

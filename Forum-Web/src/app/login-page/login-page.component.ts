@@ -65,9 +65,8 @@ export class LoginPageComponent {
         password: this.loginForm.value.password ?? '',
       }
 
-      await handleSignIn({username: formData.username, password: formData.password})
+      await handleSignIn({username: formData.username, password: formData.password}, this.router)
       console.log("signed in");
-      this.router.navigate(['']);
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
@@ -84,7 +83,7 @@ export class LoginPageComponent {
       await handleSignUpConfirmation({username: formData.username, confirmationCode: formData.code}, this.router);
       console.log("Confirmation complete")
       console.log(formData.username + ' ' + this.signupForm.value.password)
-      await handleSignIn({username: formData.username, password: this.signupForm.value.password ?? ''})
+      await handleSignIn({username: formData.username, password: this.signupForm.value.password ?? ''}, this.router)
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
@@ -98,7 +97,7 @@ export class LoginPageComponent {
   });
 
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required)
   });
 
@@ -148,9 +147,10 @@ async function handleSignUpConfirmation({
 
 import { signIn, type SignInInput } from 'aws-amplify/auth';
 
-async function handleSignIn({ username, password }: SignInInput) {
+async function handleSignIn({ username, password }: SignInInput, router: Router) {
   try {
     const { isSignedIn, nextStep } = await signIn({ username, password });
+    router.navigate(['']);
   } catch (error) {
     console.log('error signing in', error);
   }

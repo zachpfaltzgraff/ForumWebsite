@@ -1,25 +1,57 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import cdkOutput from '../../../../../ForumWebCDK/output.json';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [ButtonModule, InputTextModule, InputTextareaModule],
+  imports: [ButtonModule, InputTextModule, InputTextareaModule, ReactiveFormsModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
-  constructor(private router: Router) {};
+  constructor(private router: Router, private http: HttpClient) {};
 
+  accUsername: String = '';
   showCreatePost: boolean = false;
   hideCreatePost: boolean = false;
+  apiEndpoint = cdkOutput.LambdaAPIStack.APIEndpoint1793E782;
 
   createPost() {
+    const formData = {
+      username: this.accUsername,
+      title: this.postForm.value.title,
+      body: this.postForm.value.body,
+      likeArray: [],
+      saveArray: [],
+      commentArray: [],
+      likeCount: 0,
+      saveCount: 0,
+    }
+
+    console.log(this.apiEndpoint + 'forum/post-forum-data');
+
+    this.http.post(this.apiEndpoint + 'forum/post-forum-data', formData)
+    .pipe(
+      catchError(error => {
+        console.error('Error: ', error);
+        return throwError(error)
+      })
+    ).subscribe(response => {
+      alert("Posted successfully");
+      console.log('Response: ', response);
+      this.router.navigate(['']);
+    })
+
 
   }
 
@@ -37,6 +69,8 @@ export class HomePageComponent {
       console.log(`The username: ${username}`);
       console.log(`The userId: ${userId}`);
       console.log(`The signInDetails: ${signInDetails}`);
+      this.accUsername = `${username}`;
+      
 
       this.showCreatePost = true;
     } catch (error) {
@@ -45,15 +79,23 @@ export class HomePageComponent {
     }
   }
   postForm = new FormGroup({
+    username: new FormControl(''),
     title: new FormControl('', Validators.required),
     body: new FormControl('', Validators.required),
+    likeArray: new FormControl([]),
+    saveArray: new FormControl([]),
+    commentArray: new FormControl([]),
     likeCount: new FormControl(0),
     saveCount: new FormControl(0),
   });
 
   existingPostForm = new FormGroup({
+    username: new FormControl(''),
     title: new FormControl(''),
     body: new FormControl(''),
+    likeArray: new FormControl([]),
+    saveArray: new FormControl([]),
+    commentArray: new FormControl([]),
     likeCount: new FormControl(null),
     saveCount: new FormControl(null),
   })

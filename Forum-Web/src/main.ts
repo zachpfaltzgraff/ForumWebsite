@@ -1,7 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import cdkOutput from '../../../ForumWebsiteCDK/output.json';
+import cdkOutput from '../../../ForumWebCDK/output.json';
 import { Amplify } from 'aws-amplify';
 
 bootstrapApplication(AppComponent, appConfig)
@@ -10,7 +10,7 @@ bootstrapApplication(AppComponent, appConfig)
     Amplify.configure({
       Auth: {
         Cognito: {
-          userPoolId: cdkOutput.CognitoStack.PoolID,
+          userPoolId: cdkOutput.CognitoStack.PoolId,
           userPoolClientId: cdkOutput.CognitoStack.ClientId,
           signUpVerificationMethod: 'code',
         }

@@ -72,7 +72,7 @@ export class HomePageComponent {
   const dateCreated = new Date(data.dateCreated.S);
 
   return this.formBuilder.group({
-    username: [data.username.S || ''],
+    username: ["●" + data.username.S || ''],
     title: [data.title.S || '', Validators.required],
     body: [data.body.S || '', Validators.required],
     likeArray: [data.likeArray || []],

@@ -22,10 +22,10 @@
     <div class="post-wrapper">
         <div class="post-feed" *ngFor="let existingPostForm of formGroups; let i = index" [@slideUp]>
             <form action="" [formGroup]="existingPostForm" [@slideUp]>
-                <input type="text" pInputText formControlName="title" readonly [@slideUp]/>
-                <input class="username" type="text" formControlName="username" readonly [@slideUp]>
+                <input type="text" pInputText formControlName="title" readonly/>
+                <input class="username" type="text" formControlName="username" readonly>
                 
-                <textarea rows="7" cols="30" pInputTextarea formControlName="body" readonly [@slideUp]></textarea>
+                <textarea rows="7" cols="30" pInputTextarea formControlName="body" readonly></textarea>
     
     
             </form>

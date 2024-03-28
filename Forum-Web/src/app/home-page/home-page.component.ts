@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { getCurrentUser } from 'aws-amplify/auth';
@@ -10,21 +10,79 @@ import cdkOutput from '../../../../../ForumWebCDK/output.json';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [ButtonModule, InputTextModule, InputTextareaModule, ReactiveFormsModule],
+  imports: [ CommonModule,
+    ButtonModule, 
+    InputTextModule, 
+    InputTextareaModule, 
+    ReactiveFormsModule],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  styleUrl: './home-page.component.css',
+  animations: [
+    trigger('slideUp', [
+      state('void', style({
+        transform: 'translateY(100%)',
+      })),
+      transition(':enter', [
+        animate('0.3s ease-out', style({
+          transform: 'translateY(0)',
+        }))
+      ])
+    ])
+  ]
 })
+
 export class HomePageComponent {
-  constructor(private router: Router, private http: HttpClient) {};
+  constructor(private router: Router, private http: HttpClient, private formBuilder: FormBuilder) {};
 
   accUsername: String = '';
   showCreatePost: boolean = false;
+  showExistingPost: boolean = false;
   hideCreatePost: boolean = false;
   apiEndpoint = cdkOutput.LambdaAPIStack.APIEndpoint1793E782;
+  userData: any;
+  formGroups: FormGroup[] = [];
+
+  async ngOnInit() {
+
+    this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
+    .pipe(catchError(error => {
+      console.error('Error: ', error);
+      return throwError(error);
+    }))
+    .subscribe(response => {
+      this.userData = response.data;
+      console.log(response.data);
+      this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
+
+      this.formGroups.sort((a, b) => {
+        const dateA = a.get('dateCreated')?.value;
+        const dateB = b.get('dateCreated')?.value;
+        return dateB - dateA;
+      });
+    });
+  }
+
+  createFormGroup(data: any): FormGroup {
+  const dateCreated = new Date(data.dateCreated.S);
+
+  return this.formBuilder.group({
+    username: [data.username.S || ''],
+    title: [data.title.S || '', Validators.required],
+    body: [data.body.S || '', Validators.required],
+    likeArray: [data.likeArray || []],
+    saveArray: [data.saveArray || []],
+    commentArray: [data.commentArray || []],
+    likeCount: [data.likeCount || 0],
+    saveCount: [data.saveCount || 0],
+    dateCreated: [dateCreated], 
+  });
+}
 
   createPost() {
     const formData = {
@@ -49,10 +107,8 @@ export class HomePageComponent {
     ).subscribe(response => {
       alert("Posted successfully");
       console.log('Response: ', response);
-      this.router.navigate(['']);
+      window.location.reload();
     })
-
-
   }
 
   async deleteForm() {
@@ -78,6 +134,7 @@ export class HomePageComponent {
       this.router.navigate(['/login']);
     }
   }
+
   postForm = new FormGroup({
     username: new FormControl(''),
     title: new FormControl('', Validators.required),

@@ -9,7 +9,7 @@
 .create-button {
     margin-top: 10px;
     position: relative;
-    width: 800px;
+    width: 700px;
     height: 65px;
     border-radius: 30px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
@@ -19,7 +19,7 @@
 .create-post {
     margin-top: 10px;
     position: relative;
-    width: 800px;
+    width: 700px;
     height: 300px;
     border-radius: 30px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
@@ -29,8 +29,7 @@
 
 .post-feed {
     margin-top: 10px;
-    height: fit-content;
-    width: 800px;
+    width: 700px;
     border-radius: 30px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
     background-color: #0f0c29; 
@@ -87,6 +86,35 @@ textarea {
     resize: none;
     border: none;
     background-color: #0f0c29; 
+}
+
+.anderson img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    opacity: 50%;
+    border-radius: 30px;
+}
+
+.ad img {
+    position: absolute;
+    right: 370px;
+    top: 200px;
+    height: 650px;
+    width: 200px;
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+}
+.ad2 img {
+    position: absolute;
+    left: 370px;
+    top: 200px;
+    height: 650px;
+    width: 200px;
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes dropDown {

@@ -40,7 +40,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class HomePageComponent {
   constructor(private router: Router, private http: HttpClient, private formBuilder: FormBuilder) {};
 
-  accUsername: String = '';
+  accUsername: string = '';
   showCreatePost: boolean = false;
   showExistingPost: boolean = false;
   hideCreatePost: boolean = false;
@@ -51,6 +51,16 @@ export class HomePageComponent {
   isLiked: boolean[] = [];
 
   async ngOnInit() {
+    try {
+      const {username, userId, signInDetails } = await getCurrentUser();
+      console.log(`The username: ${username}`);
+      console.log(`The userId: ${userId}`);
+      console.log(`The signInDetails: ${signInDetails}`);
+      this.accUsername = `${username}`;
+    } catch (err) {
+      this.accUsername = '';
+    }
+
     this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
     .pipe(catchError(error => {
       console.error('Error: ', error);
@@ -59,13 +69,35 @@ export class HomePageComponent {
     .subscribe(response => {
       this.userData = response.data;
       console.log(response.data);
+      
+      // Sorting formGroups array
       this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
       this.formGroups.sort((a, b) => {
         const dateA = a.get('dateCreated')?.value;
         const dateB = b.get('dateCreated')?.value;
         return dateB - dateA;
       });
+
+      // Checking if username is in likeArray after sorting
+      this.formGroups.forEach((item: any, index: number) => {
+        if (this.arrayHasUsername(item)) {
+          this.isLiked[index] = true;
+        } else {
+          this.isLiked[index] = false;
+        }
+      });
     });
+  }
+
+  arrayHasUsername(item: any) {
+    const likeArray = item.value.likeArray.L;
+    for (let i = 0; i < likeArray.length; i++) {
+      console.log(likeArray[i].S);
+      if (likeArray[i].S == this.accUsername) {
+          return true;
+      }
+    }
+    return false;
   }
 
   createFormGroup(data: any): FormGroup {
@@ -123,30 +155,18 @@ export class HomePageComponent {
   }
 
   async toggleCreatePost() {
-    try {
-      const {username, userId, signInDetails } = await getCurrentUser();
-      console.log(`The username: ${username}`);
-      console.log(`The userId: ${userId}`);
-      console.log(`The signInDetails: ${signInDetails}`);
-      this.accUsername = `${username}`;
-      
-      this.showCreatePost = true;
-    } catch (error) {
-      console.log(error);
+    if(this.accUsername == '') {
       this.router.navigate(['/login']);
+    }
+    else {
+      this.showCreatePost = true;
     }
   }
 
   async postBtnClick(formGroup: FormGroup, btnClicked: String, index: number) {
-    try {
-      const {username, userId, signInDetails } = await getCurrentUser();
-      console.log(`The username: ${username}`);
-      console.log(`The userId: ${userId}`);
-      console.log(`The signInDetails: ${signInDetails}`);
-      this.accUsername = `${username}`;
-    } catch (error) {
-      console.log(error);
+    if(this.accUsername == '') {
       this.router.navigate(['/login']);
+      return;
     }
 
     if (btnClicked == 'like') {

@@ -46,10 +46,11 @@ export class HomePageComponent {
   hideCreatePost: boolean = false;
   apiEndpoint = cdkOutput.LambdaAPIStack.APIEndpoint1793E782;
   userData: any;
+  loading: boolean = false;
   formGroups: FormGroup[] = [];
+  isLiked: boolean[] = [];
 
   async ngOnInit() {
-
     this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
     .pipe(catchError(error => {
       console.error('Error: ', error);
@@ -59,7 +60,6 @@ export class HomePageComponent {
       this.userData = response.data;
       console.log(response.data);
       this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
-
       this.formGroups.sort((a, b) => {
         const dateA = a.get('dateCreated')?.value;
         const dateB = b.get('dateCreated')?.value;
@@ -78,13 +78,13 @@ export class HomePageComponent {
     likeArray: [data.likeArray || []],
     saveArray: [data.saveArray || []],
     commentArray: [data.commentArray || []],
-    likeCount: [data.likeCount || 0],
-    saveCount: [data.saveCount || 0],
+    likeCount: [data.likeCount.N || 0],
     dateCreated: [dateCreated], 
   });
 }
 
   createPost() {
+    this.loading = true;
     const formData = {
       username: this.accUsername,
       title: this.postForm.value.title,
@@ -93,7 +93,6 @@ export class HomePageComponent {
       saveArray: [],
       commentArray: [],
       likeCount: 0,
-      saveCount: 0,
     }
 
     console.log(this.apiEndpoint + 'forum/post-forum-data');
@@ -105,6 +104,7 @@ export class HomePageComponent {
         return throwError(error)
       })
     ).subscribe(response => {
+      this.loading = false;
       alert("Posted successfully");
       console.log('Response: ', response);
       window.location.reload();
@@ -127,12 +127,30 @@ export class HomePageComponent {
       console.log(`The signInDetails: ${signInDetails}`);
       this.accUsername = `${username}`;
       
-
       this.showCreatePost = true;
     } catch (error) {
       console.log(error);
       this.router.navigate(['/login']);
     }
+  }
+
+  postBtnClick(formGroup: FormGroup, btnClicked: String, index: number) {
+      if (btnClicked == 'like') {
+        console.log("like btn clicked")
+        formGroup.value.likeCount++;
+        this.isLiked[index] = true;
+      }
+      else if (btnClicked == 'dislike') {
+        console.log("Dislike cicked")
+        formGroup.value.likeCount--;
+        this.isLiked[index] = false;
+      }
+      else if (btnClicked == 'save') {
+        console.log("save btn clicked")
+      }
+      else if (btnClicked == 'comment') {
+        console.log("comment btn clicked")
+      }
   }
 
   postForm = new FormGroup({
@@ -143,7 +161,6 @@ export class HomePageComponent {
     saveArray: new FormControl([]),
     commentArray: new FormControl([]),
     likeCount: new FormControl(0),
-    saveCount: new FormControl(0),
   });
 
   existingPostForm = new FormGroup({
@@ -153,8 +170,6 @@ export class HomePageComponent {
     likeArray: new FormControl([]),
     saveArray: new FormControl([]),
     commentArray: new FormControl([]),
-    likeCount: new FormControl(null),
-    saveCount: new FormControl(null),
+    likeCount: new FormControl(0),
   })
-
 }

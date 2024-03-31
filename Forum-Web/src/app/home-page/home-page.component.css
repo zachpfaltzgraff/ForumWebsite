@@ -30,16 +30,16 @@
 .post-feed {
     margin-top: 10px;
     width: 700px;
+    height: fit-content;
     border-radius: 30px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
     background-color: #0f0c29; 
-    pointer-events: none;
 }
 .post-wrapper {
-    height: 83vh;
-    width: fit-content;
+    border-radius: 30px;
     overflow: scroll;
     overflow-x: hidden;
+    height: 83vh;
     margin-top: 10px;
 }
 .post-wrapper input {
@@ -47,6 +47,7 @@
     margin-bottom: 0;
 }
 .username {
+    width: fit-content;
     position: relative;
     text-align:left;
     margin:0 0 0 25px;
@@ -59,9 +60,8 @@
     right: 10px;
 }
 
-p-button {
+.create-button p-button, .create-post p-button {
     margin-left: 10px;
-
 }
 
 .form-buttons {
@@ -77,6 +77,24 @@ input{
     width: 100%;
     border: none;
     background-color: #0f0c29; 
+}
+input:focus, textarea:focus {
+    outline: none;
+    outline-style: none;
+    box-shadow: none;
+    border-color: transparent;
+    border: none;
+}
+.post-buttons {
+    margin-left: 6px;
+    display: flex;
+    flex-direction: row;
+}
+.post-buttons p {
+    align-self: flex-end;
+    font-size: small;
+    width: fit-content;
+    padding: 0;
 }
 
 textarea {
@@ -98,24 +116,6 @@ textarea {
     border-radius: 30px;
 }
 
-.ad img {
-    position: absolute;
-    right: 370px;
-    top: 200px;
-    height: 650px;
-    width: 200px;
-    border-radius: 20px;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
-}
-.ad2 img {
-    position: absolute;
-    left: 370px;
-    top: 200px;
-    height: 650px;
-    width: 200px;
-    border-radius: 20px;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
-}
 
 @keyframes dropDown {
     from {

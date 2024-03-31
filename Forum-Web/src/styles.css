@@ -2,10 +2,10 @@
 @import "primeng/resources/themes/lara-dark-purple/theme.css";
 @import "primeng/resources/primeng.css";
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import "primeicons/primeicons.css";
 
 body {
     margin: 0;
-    background-color: #4e4e4e;
     background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
     font-family:'Jost', sans-serif;
     min-height: 100vh;

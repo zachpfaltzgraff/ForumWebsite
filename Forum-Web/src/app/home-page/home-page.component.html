@@ -7,15 +7,15 @@
     <div class="create-post" [hidden]="!showCreatePost"
         [class.dropDown]="showCreatePost" [class.dropUp]="hideCreatePost">
         <form action="" [formGroup]="postForm">
-            <input type="text" pInputText placeholder="Title..." formControlName="title"/>
+            <input type="text" pInputText placeholder="Title..." formControlName="title" maxlength="25"/>
 
-            <textarea rows="7" cols="30" pInputTextarea placeholder="Create Post..." formControlName="body"></textarea>
+            <textarea rows="7" cols="30" pInputTextarea placeholder="Create Post..." formControlName="body" maxlength="400"></textarea>
 
         </form>
 
         <div class="form-buttons">
             <p-button (onClick)="deleteForm()" label="Cancel" [rounded]="true" severity="secondary"></p-button>
-            <p-button (onClick)="createPost()" [rounded]="true" label="Create Post"></p-button>
+            <p-button (onClick)="createPost()" [rounded]="true" label="Create Post" [loading]="loading"></p-button>
         </div>
     </div>
 
@@ -26,8 +26,20 @@
                 <input class="username" type="text" formControlName="username" readonly>
                 
                 <textarea rows="7" cols="30" pInputTextarea formControlName="body" readonly></textarea>
-    
-    
+                
+                <div class="post-buttons">
+                    <p-button icon="pi pi-heart" [rounded]="true" [hidden]="isLiked[i]" 
+                    [text]="true" severity="help" (onClick)="postBtnClick(existingPostForm, 'like', i)"></p-button>
+                    <p-button icon="pi pi-heart-fill" [rounded]="true" [hidden]="!isLiked[i]"
+                    [text]="true" severity="help" (onClick)="postBtnClick(existingPostForm, 'dislike', i)"></p-button>
+                    <p>{{existingPostForm.value.likeCount}}</p>
+
+                    <p-button icon="pi pi-bookmark" [rounded]="true" 
+                    [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'save', i)"></p-button>
+
+                    <p-button icon="pi pi-comments" [rounded]="true" 
+                    [text]="true" severity="primary" (onClick)="postBtnClick(existingPostForm, 'comment', i)"></p-button>
+                </div>
             </form>
         </div>
     </div>
@@ -36,11 +48,3 @@
 <div class="anderson">
     <img src="assets/purpleanderson.png" alt="">
 </div>
-
-<div class="ad">
-    <img src="assets/advertisement.png" alt="">
-</div>
-<div class="ad2">
-    <img src="assets/ad2.png" alt="">
-</div>
-

@@ -152,6 +152,7 @@ async function handleSignIn({ username, password }: SignInInput, router: Router)
     const { isSignedIn, nextStep } = await signIn({ username, password });
     router.navigate(['']);
   } catch (error) {
+    alert(error);
     console.log('error signing in', error);
   }
 }

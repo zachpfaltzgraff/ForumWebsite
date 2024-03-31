@@ -72,6 +72,7 @@ export class HomePageComponent {
   const dateCreated = new Date(data.dateCreated.S);
 
   return this.formBuilder.group({
+    UUID: [data.UUID.S],
     username: ["●" + data.username.S || ''],
     title: [data.title.S || '', Validators.required],
     body: [data.body.S || '', Validators.required],
@@ -84,11 +85,13 @@ export class HomePageComponent {
 }
 
   createPost() {
+    const date = new Date();
     this.loading = true;
     const formData = {
       username: this.accUsername,
       title: this.postForm.value.title,
       body: this.postForm.value.body,
+      dateCreated: date,
       likeArray: [],
       saveArray: [],
       commentArray: [],
@@ -134,23 +137,54 @@ export class HomePageComponent {
     }
   }
 
-  postBtnClick(formGroup: FormGroup, btnClicked: String, index: number) {
-      if (btnClicked == 'like') {
-        console.log("like btn clicked")
-        formGroup.value.likeCount++;
-        this.isLiked[index] = true;
+  async postBtnClick(formGroup: FormGroup, btnClicked: String, index: number) {
+    try {
+      const {username, userId, signInDetails } = await getCurrentUser();
+      console.log(`The username: ${username}`);
+      console.log(`The userId: ${userId}`);
+      console.log(`The signInDetails: ${signInDetails}`);
+      this.accUsername = `${username}`;
+    } catch (error) {
+      console.log(error);
+      this.router.navigate(['/login']);
+    }
+
+    if (btnClicked == 'like') {
+      console.log("like btn clicked")
+      formGroup.value.likeCount++;
+      this.isLiked[index] = true;
+
+      const formData = {
+        UUID: formGroup.value.UUID,
+        dateCreated: formGroup.value.dateCreated,
+        likeCount: formGroup.value.likeCount,
+        accountID: this.accUsername,
       }
-      else if (btnClicked == 'dislike') {
-        console.log("Dislike cicked")
-        formGroup.value.likeCount--;
-        this.isLiked[index] = false;
-      }
-      else if (btnClicked == 'save') {
-        console.log("save btn clicked")
-      }
-      else if (btnClicked == 'comment') {
-        console.log("comment btn clicked")
-      }
+
+      console.log(formData)
+
+      this.http.put(this.apiEndpoint + 'forum/like-update', formData)
+        .pipe(
+          catchError(error => {
+            console.error('Error: ', error);
+            return throwError(error);
+          })
+        )
+        .subscribe(response => {
+          console.log('Response: ', response);
+        });
+    }
+    else if (btnClicked == 'dislike') {
+      console.log("Dislike cicked")
+      formGroup.value.likeCount--;
+      this.isLiked[index] = false;
+    }
+    else if (btnClicked == 'save') {
+      console.log("save btn clicked")
+    }
+    else if (btnClicked == 'comment') {
+      console.log("comment btn clicked")
+    }
   }
 
   postForm = new FormGroup({

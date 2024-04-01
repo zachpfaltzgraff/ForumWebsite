@@ -49,6 +49,7 @@ export class HomePageComponent {
   loading: boolean = false;
   formGroups: FormGroup[] = [];
   isLiked: boolean[] = [];
+  isSaved: boolean[] = [];
 
   async ngOnInit() {
     try {
@@ -80,20 +81,36 @@ export class HomePageComponent {
 
       // Checking if username is in likeArray after sorting
       this.formGroups.forEach((item: any, index: number) => {
-        if (this.arrayHasUsername(item)) {
+        if (this.likeArrayHasUsername(item)) {
           this.isLiked[index] = true;
         } else {
           this.isLiked[index] = false;
+        }
+
+        if (this.saveArrayHasUsername(item)) {
+          this.isSaved[index] = true;
+        }
+        else {
+          this.isSaved[index] = false;
         }
       });
     });
   }
 
-  arrayHasUsername(item: any) {
+  likeArrayHasUsername(item: any) {
     const likeArray = item.value.likeArray.L;
     for (let i = 0; i < likeArray.length; i++) {
-      console.log(likeArray[i].S);
       if (likeArray[i].S == this.accUsername) {
+          return true;
+      }
+    }
+    return false;
+  }
+
+  saveArrayHasUsername(item: any) {
+    const saveArray = item.value.saveArray.L;
+    for (let i = 0; i < saveArray.length; i++) {
+      if (saveArray[i].S == this.accUsername) {
           return true;
       }
     }
@@ -199,6 +216,27 @@ export class HomePageComponent {
     }
     else if (btnClicked == 'save') {
       console.log("save btn clicked")
+      this.isSaved[index] = true;
+
+      const formData = {
+        UUID: formGroup.value.UUID,
+        dateCreated: formGroup.value.dateCreated,
+        accountID: this.accUsername,
+      }
+      console.log(formData)
+
+      this.http.put(this.apiEndpoint + 'forum/save-update', formData)
+      .pipe(
+        catchError(error => {
+          console.error('Error: ', error);
+          return throwError(error);
+        })
+      )
+      .subscribe(response => {
+        console.log('Response: ', response);
+      });
+
+
     }
     else if (btnClicked == 'comment') {
       console.log("comment btn clicked")

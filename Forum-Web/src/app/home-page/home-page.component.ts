@@ -130,13 +130,11 @@ export class HomePageComponent {
       likeCount: 0,
     }
 
-    console.log(this.apiEndpoint + 'forum/post-forum-data');
-
     this.http.post(this.apiEndpoint + 'forum/post-forum-data', formData)
     .pipe(
       catchError(error => {
         console.error('Error: ', error);
-        return throwError(error)
+        return throwError(error)  
       })
     ).subscribe(response => {
       this.loading = false;

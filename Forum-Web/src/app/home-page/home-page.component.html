@@ -37,7 +37,7 @@
                     <p-button icon="pi pi-bookmark" [rounded]="true" [hidden]="isSaved[i]"
                     [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'save', i)"></p-button>
                     <p-button icon="pi pi-bookmark-fill" [rounded]="true" [hidden]="!isSaved[i]"
-                    [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'save', i)"></p-button>
+                    [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'unsave', i)"></p-button>
 
                     <p-button icon="pi pi-comments" [rounded]="true" 
                     [text]="true" severity="primary" (onClick)="postBtnClick(existingPostForm, 'comment', i)"></p-button>

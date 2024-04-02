@@ -213,6 +213,24 @@ export class HomePageComponent {
       console.log("Dislike cicked")
       formGroup.value.likeCount--;
       this.isLiked[index] = false;
+
+      const formData = {
+        UUID: formGroup.value.UUID,
+        dateCreated: formGroup.value.dateCreated,
+        likeCount: formGroup.value.likeCount,
+        index: index,
+      }
+
+      this.http.put(this.apiEndpoint + 'forum/like-delete', formData)
+        .pipe(
+          catchError(error => {
+            console.error('Error: ', error);
+            return throwError(error);
+          })
+        )
+        .subscribe(response => {
+          console.log('Response: ', response);
+        });
     }
     else if (btnClicked == 'save') {
       console.log("save btn clicked")
@@ -235,8 +253,27 @@ export class HomePageComponent {
       .subscribe(response => {
         console.log('Response: ', response);
       });
+    }
+    else if( btnClicked == 'unsave') {
+      this.isSaved[index] = false;
 
+      const formData = {
+        UUID: formGroup.value.UUID,
+        dateCreated: formGroup.value.dateCreated,
+        index: index,
+      }
+      console.log(formData)
 
+      this.http.put(this.apiEndpoint + 'forum/save-delete', formData)
+      .pipe(
+        catchError(error => {
+          console.error('Error: ', error);
+          return throwError(error);
+        })
+      )
+      .subscribe(response => {
+        console.log('Response: ', response);
+      });
     }
     else if (btnClicked == 'comment') {
       console.log("comment btn clicked")

@@ -115,9 +115,17 @@ textarea {
     opacity: 50%;
     border-radius: 20px;
 }
-p-tabMenu {
+
+:host ::ng-deep .p-tabmenu {
     margin-top: 10px;
     width: 700px;
+}
+
+@media only screen and (max-width: 800px) {
+    p-tabMenu, .post-feed,
+    .create-button, .create-post {
+        width: 95vw;
+    }
 }
 
 

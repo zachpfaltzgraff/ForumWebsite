@@ -20,36 +20,35 @@ export class HeaderBarComponent {
   constructor(private router: Router) {};
 
   isSignedIn: boolean = false;
-  items: MenuItem[] | undefined;
-
-  async ngOnInit() {
-    this.items = [
-      {
-          items: [
-              {
-                  label: 'Home',
-                  icon: 'pi pi-home',
-                  command: () => {
-                    this.router.navigate(['']);
-                  }
-              },
-              {
-                label: 'Contact Us',
-                icon: 'pi pi-phone',
+  items: MenuItem[] = [
+    {
+        items: [
+            {
+                label: 'Home',
+                icon: 'pi pi-home',
+                command: () => {
+                  this.router.navigate(['']);
+                }
+            },
+            {
+              label: 'Contact Us',
+              icon: 'pi pi-phone',
+              command: () => {
+                
+              }
+            },
+            {
+                label: 'About Us',
+                icon: 'pi pi-question-circle',
                 command: () => {
                   
                 }
-              },
-              {
-                  label: 'About Us',
-                  icon: 'pi pi-question-circle',
-                  command: () => {
-                    
-                  }
-              }
-          ]
-      },
-  ];
+            }
+        ]
+    },
+];
+
+  async ngOnInit() {
       try {
         const { username, userId, signInDetails } = await getCurrentUser();
         console.log(`The username: ${username}`);

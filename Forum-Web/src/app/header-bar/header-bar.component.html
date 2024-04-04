@@ -7,10 +7,15 @@
         <a href="">Contact Us</a>
     </div>
 
-    <div class="left" [hidden]="isSignedIn">
+    <div class="right" [hidden]="isSignedIn">
         <p-button label="Sign Up" [outlined]="true" (onClick)="handleClick()"></p-button>
     </div>
-    <div class="left" [hidden]="!isSignedIn">
+    <div class="right" [hidden]="!isSignedIn">
         <p-button label="Sign Out" [outlined]="true" (onClick)="handleClick()"></p-button>
+    </div>
+
+    <div class="hamburger">
+        <p-menu #menu [model]="items" [popup]="true"></p-menu>
+        <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-bars"></button>
     </div>
 </div>

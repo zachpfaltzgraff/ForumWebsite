@@ -18,7 +18,7 @@
     width: fit-content;
     margin-top: 10px;
 }
-.left{
+.right{
     margin: 10px;
     align-items: center;
     justify-content: center;
@@ -41,4 +41,31 @@ h1 {
     font-size: 40px;
     display: flex;
     align-items: center;
+}
+
+.hamburger {
+    display: none;
+}
+p-menu {
+    background-color: transparent;
+}
+
+@media only screen and (max-width:800px) {
+    h1 {
+        justify-content: center;
+        height: 37.5px;
+        width: 100vw;
+        margin-left: 0px;
+    }
+    .center {
+        display: none;
+    }
+    .hamburger {
+        display: flex;
+        position: absolute;
+        left: 0;
+        top: 5px;
+        width: fit-content;
+        margin-top: 10px;
+    }
 }

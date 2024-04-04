@@ -115,6 +115,10 @@ textarea {
     opacity: 50%;
     border-radius: 20px;
 }
+p-tabMenu {
+    margin-top: 10px;
+    width: 700px;
+}
 
 
 @keyframes dropDown {

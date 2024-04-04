@@ -18,10 +18,66 @@
             <p-button (onClick)="createPost()" [rounded]="true" label="Create Post" [loading]="loading"></p-button>
         </div>
     </div>
+    
+    <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
 
-    <div class="post-wrapper">
+    <div class="post-wrapper" [hidden]="contentShown != 0">
         <div class="post-feed" *ngFor="let existingPostForm of formGroups; let i = index" [@slideUp]>
             <form action="" [formGroup]="existingPostForm" [@slideUp]>
+                <input type="text" pInputText formControlName="title" readonly/>
+                <input class="username" type="text" formControlName="username" readonly>
+                
+                <textarea rows="7" cols="30" pInputTextarea formControlName="body" readonly></textarea>
+                
+                <div class="post-buttons">
+                    <p-button icon="pi pi-heart" [rounded]="true" [hidden]="isLiked[i]" 
+                    [text]="true" severity="help" (onClick)="postBtnClick(existingPostForm, 'like', i)"></p-button>
+                    <p-button icon="pi pi-heart-fill" [rounded]="true" [hidden]="!isLiked[i]"
+                    [text]="true" severity="help" (onClick)="postBtnClick(existingPostForm, 'dislike', i)"></p-button>
+                    <p>{{existingPostForm.value.likeCount}}</p>
+
+                    <p-button icon="pi pi-bookmark" [rounded]="true" [hidden]="isSaved[i]"
+                    [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'save', i)"></p-button>
+                    <p-button icon="pi pi-bookmark-fill" [rounded]="true" [hidden]="!isSaved[i]"
+                    [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'unsave', i)"></p-button>
+
+                    <p-button icon="pi pi-comments" [rounded]="true" 
+                    [text]="true" severity="primary" (onClick)="postBtnClick(existingPostForm, 'comment', i)"></p-button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="post-wrapper" [hidden]="contentShown != 1">
+        <div class="post-feed" *ngFor="let existingPostForm of formGroups; let i = index" [@slideUp]>
+            <form action="" [formGroup]="existingPostForm" [@slideUp]  [hidden]="!isLiked[i]">
+                <input type="text" pInputText formControlName="title" readonly/>
+                <input class="username" type="text" formControlName="username" readonly>
+                
+                <textarea rows="7" cols="30" pInputTextarea formControlName="body" readonly></textarea>
+                
+                <div class="post-buttons">
+                    <p-button icon="pi pi-heart" [rounded]="true" [hidden]="isLiked[i]" 
+                    [text]="true" severity="help" (onClick)="postBtnClick(existingPostForm, 'like', i)"></p-button>
+                    <p-button icon="pi pi-heart-fill" [rounded]="true" [hidden]="!isLiked[i]"
+                    [text]="true" severity="help" (onClick)="postBtnClick(existingPostForm, 'dislike', i)"></p-button>
+                    <p>{{existingPostForm.value.likeCount}}</p>
+
+                    <p-button icon="pi pi-bookmark" [rounded]="true" [hidden]="isSaved[i]"
+                    [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'save', i)"></p-button>
+                    <p-button icon="pi pi-bookmark-fill" [rounded]="true" [hidden]="!isSaved[i]"
+                    [text]="true" severity="secondary" (onClick)="postBtnClick(existingPostForm, 'unsave', i)"></p-button>
+
+                    <p-button icon="pi pi-comments" [rounded]="true" 
+                    [text]="true" severity="primary" (onClick)="postBtnClick(existingPostForm, 'comment', i)"></p-button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="post-wrapper" [hidden]="contentShown != 2">
+        <div class="post-feed" *ngFor="let existingPostForm of formGroups; let i = index" [@slideUp]>
+            <form action="" [formGroup]="existingPostForm" [@slideUp] [hidden]="!isSaved[i]">
                 <input type="text" pInputText formControlName="title" readonly/>
                 <input class="username" type="text" formControlName="username" readonly>
                 

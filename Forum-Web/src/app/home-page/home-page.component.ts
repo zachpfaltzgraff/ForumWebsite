@@ -11,7 +11,9 @@ import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { TabMenuModule } from 'primeng/tabmenu';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-home-page',
@@ -20,7 +22,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ButtonModule, 
     InputTextModule, 
     InputTextareaModule, 
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    TabMenuModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css',
   animations: [
@@ -50,6 +53,30 @@ export class HomePageComponent {
   formGroups: FormGroup[] = [];
   isLiked: boolean[] = [];
   isSaved: boolean[] = [];
+  contentShown: number = 0;
+  items: MenuItem[] = [
+    {label: 'Newest',
+      icon: 'pi pi-star',
+      command: () => {
+        this.contentShown = 0;
+      }
+    },
+    {
+      label: 'Liked',
+      icon: 'pi pi-heart',
+      command: () => {
+        this.contentShown = 1;
+      }
+    },
+    {
+      label: 'Saved',
+      icon: 'pi pi-bookmark',
+      command: () => {
+        this.contentShown = 2;
+      }
+    },
+  ];
+  activeItem: MenuItem = this.items[0];
 
   async ngOnInit() {
     try {

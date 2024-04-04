@@ -3,11 +3,16 @@ import { ButtonModule } from 'primeng/button';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { signOut } from 'aws-amplify/auth';
 import { Router } from '@angular/router';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-header-bar',
   standalone: true,
-  imports: [ButtonModule],
+  imports: 
+  [ButtonModule,
+    MenuModule
+  ],
   templateUrl: './header-bar.component.html',
   styleUrl: './header-bar.component.css'
 })
@@ -15,8 +20,36 @@ export class HeaderBarComponent {
   constructor(private router: Router) {};
 
   isSignedIn: boolean = false;
+  items: MenuItem[] | undefined;
 
   async ngOnInit() {
+    this.items = [
+      {
+          items: [
+              {
+                  label: 'Home',
+                  icon: 'pi pi-home',
+                  command: () => {
+                    this.router.navigate(['']);
+                  }
+              },
+              {
+                label: 'Contact Us',
+                icon: 'pi pi-phone',
+                command: () => {
+                  
+                }
+              },
+              {
+                  label: 'About Us',
+                  icon: 'pi pi-question-circle',
+                  command: () => {
+                    
+                  }
+              }
+          ]
+      },
+  ];
       try {
         const { username, userId, signInDetails } = await getCurrentUser();
         console.log(`The username: ${username}`);

@@ -126,6 +126,9 @@ textarea {
     .create-button, .create-post {
         width: 95vw;
     }
+    :host ::ng-deep .p-tabmenu {
+        width: 95vw;
+    }
 }
 
 

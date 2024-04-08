@@ -29,12 +29,7 @@ a {
     color: white;
     font-weight: bold;
     margin: 0 20px;
-    padding: 0px 10px;
-    border-right: solid white 2px;
     scale: 1.5;
-}
-a:last-child {
-    border-right: none;
 }
 h1 {
     margin-left: 5px;

@@ -98,7 +98,6 @@ export class HomePageComponent {
       this.userData = response.data;
       console.log(response.data);
       
-      // Sorting formGroups array
       this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
       this.formGroups.sort((a, b) => {
         const dateA = a.get('dateCreated')?.value;
@@ -106,7 +105,6 @@ export class HomePageComponent {
         return dateB - dateA;
       });
 
-      // Checking if username is in likeArray after sorting
       this.formGroups.forEach((item: any, index: number) => {
         if (this.likeArrayHasUsername(item)) {
           this.isLiked[index] = true;

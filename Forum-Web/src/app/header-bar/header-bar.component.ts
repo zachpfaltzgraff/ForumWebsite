@@ -66,7 +66,7 @@ export class HeaderBarComponent {
     if (this.isSignedIn) {
       await handleSignOut();
       this.isSignedIn = false;
-      alert("Signed Out")
+      window.location.reload();
     } else {
       this.router.navigate(['login'])
     }
@@ -78,5 +78,6 @@ async function handleSignOut() {
     await signOut();
   } catch (error) {
     console.log('error signing out: ', error);
+    Window
   }
 }

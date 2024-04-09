@@ -1,7 +1,8 @@
 <div class="wrapper">
 
-    <div class="create-button" [hidden]="showCreatePost">
-        <p-button [rounded]="true" label="Create Post" (onClick)="toggleCreatePost()"></p-button>
+    <div class="create-button" [hidden]="showCreatePost" [style.opacity]="showComment ? '0.3' : '1'">
+        <p-button [rounded]="true" label="Create Post" 
+        (onClick)="toggleCreatePost()" [disabled]="showComment"></p-button>
     </div>
 
     <div class="create-post" [hidden]="!showCreatePost"
@@ -18,13 +19,13 @@
             <p-button (onClick)="createPost()" [rounded]="true" label="Create Post" [loading]="loading"></p-button>
         </div>
     </div>
-    
+
     <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
 
-    <div class="post-wrapper" [hidden]="contentShown != 0">
+    <div class="post-wrapper" [hidden]="contentShown != 0" [style.opacity]="showComment ? '0.3' : '1'">
         <div class="post-feed" *ngFor="let existingPostForm of formGroups; let i = index" [@slideUp]>
             <form action="" [formGroup]="existingPostForm" [@slideUp]>
-                <input type="text" pInputText formControlName="title" readonly/>
+                <input type="text" class="title" pInputText formControlName="title" readonly/>
                 <input class="username" type="text" formControlName="username" readonly>
                 
                 <textarea rows="7" cols="30" pInputTextarea formControlName="body" readonly></textarea>
@@ -48,7 +49,7 @@
         </div>
     </div>
 
-    <div class="post-wrapper" [hidden]="contentShown != 1">
+    <div class="post-wrapper" [hidden]="contentShown != 1" [style.opacity]="showComment ? '0.3' : '1'">
         <div class="post-feed" *ngFor="let existingPostForm of formGroups; let i = index" [@slideUp]>
             <form action="" [formGroup]="existingPostForm" [@slideUp]  [hidden]="!isLiked[i]">
                 <input type="text" pInputText formControlName="title" readonly/>
@@ -75,7 +76,7 @@
         </div>
     </div>
 
-    <div class="post-wrapper" [hidden]="contentShown != 2">
+    <div class="post-wrapper" [hidden]="contentShown != 2" [style.opacity]="showComment ? '0.3' : '1'">
         <div class="post-feed" *ngFor="let existingPostForm of formGroups; let i = index" [@slideUp]>
             <form action="" [formGroup]="existingPostForm" [@slideUp] [hidden]="!isSaved[i]">
                 <input type="text" pInputText formControlName="title" readonly/>
@@ -101,8 +102,13 @@
             </form>
         </div>
     </div>
+
+    <div class="comments" *ngIf="showComment">
+        
+    </div>
 </div>
 
 <div class="anderson">
     <img src="assets/purpleanderson.png" alt="">
 </div>
+<p-toast position="top-center" key="tc"></p-toast>

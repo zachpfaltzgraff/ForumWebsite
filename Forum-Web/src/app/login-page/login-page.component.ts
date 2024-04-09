@@ -65,8 +65,11 @@ export class LoginPageComponent {
         password: this.loginForm.value.password ?? '',
       }
 
-      await handleSignIn({username: formData.username, password: formData.password}, this.router)
-      console.log("signed in");
+      await handleSignIn({username: formData.username, password: formData.password})
+
+      this.messageService.add({ key: 'bc', severity: 'success', summary: 'Signed In', detail: 'Page will redirect in 1 second'});
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      this.router.navigate(['']);
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
@@ -80,10 +83,10 @@ export class LoginPageComponent {
         code: this.confirmCodeForm.value.code ?? '',
       }
 
-      await handleSignUpConfirmation({username: formData.username, confirmationCode: formData.code}, this.router);
+      await handleSignUpConfirmation({username: formData.username, confirmationCode: formData.code});
       console.log("Confirmation complete")
       console.log(formData.username + ' ' + this.signupForm.value.password)
-      await handleSignIn({username: formData.username, password: this.signupForm.value.password ?? ''}, this.router)
+      await handleSignIn({username: formData.username, password: this.signupForm.value.password ?? ''})
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
@@ -132,7 +135,7 @@ async function handleSignUp(this: any, {
 async function handleSignUpConfirmation({
   username,
   confirmationCode
-}: ConfirmSignUpInput, router: Router) {
+}: ConfirmSignUpInput) {
   try {
     const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
@@ -141,16 +144,14 @@ async function handleSignUpConfirmation({
   } catch (error) {
     alert(error)
     console.log('error confirming sign up', error);
-    router.navigate(['']);
   }
 }
 
 import { signIn, type SignInInput } from 'aws-amplify/auth';
 
-async function handleSignIn({ username, password }: SignInInput, router: Router) {
+async function handleSignIn({ username, password }: SignInInput) {
   try {
     const { isSignedIn, nextStep } = await signIn({ username, password });
-    router.navigate(['']);
   } catch (error) {
     alert(error);
     console.log('error signing in', error);

@@ -5,19 +5,22 @@ import { signOut } from 'aws-amplify/auth';
 import { Router } from '@angular/router';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-header-bar',
   standalone: true,
   imports: 
   [ButtonModule,
-    MenuModule
+    MenuModule,
+    ToastModule,
   ],
   templateUrl: './header-bar.component.html',
   styleUrl: './header-bar.component.css'
 })
 export class HeaderBarComponent {
-  constructor(private router: Router) {};
+  constructor(private router: Router, private messageService: MessageService) {};
 
   isSignedIn: boolean = false;
   items: MenuItem[] = [
@@ -66,6 +69,8 @@ export class HeaderBarComponent {
     if (this.isSignedIn) {
       await handleSignOut();
       this.isSignedIn = false;
+      this.messageService.add({ key: 'tc', severity: 'success', summary: 'Signed Out', detail: 'Page will reload in 1 second' });
+      await new Promise(resolve => setTimeout(resolve, 1000));
       window.location.reload();
     } else {
       this.router.navigate(['login'])

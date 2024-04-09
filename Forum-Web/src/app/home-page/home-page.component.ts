@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MenuItem } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-home-page',
@@ -23,7 +25,8 @@ import { MenuItem } from 'primeng/api';
     InputTextModule, 
     InputTextareaModule, 
     ReactiveFormsModule,
-    TabMenuModule],
+    TabMenuModule,
+    ToastModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css',
   animations: [
@@ -41,7 +44,10 @@ import { MenuItem } from 'primeng/api';
 })
 
 export class HomePageComponent {
-  constructor(private router: Router, private http: HttpClient, private formBuilder: FormBuilder) {};
+  constructor(private router: Router, 
+    private http: HttpClient, 
+    private formBuilder: FormBuilder,
+    private messageService: MessageService) {};
 
   accUsername: string = '';
   showCreatePost: boolean = false;
@@ -53,6 +59,7 @@ export class HomePageComponent {
   formGroups: FormGroup[] = [];
   isLiked: boolean[] = [];
   isSaved: boolean[] = [];
+  showComment: boolean = false;
   contentShown: number = 0;
   items: MenuItem[] = [
     {label: 'Newest',
@@ -180,7 +187,7 @@ export class HomePageComponent {
       })
     ).subscribe(response => {
       this.loading = false;
-      alert("Posted successfully");
+      this.messageService.add({ key: 'tc', severity: 'success', summary: 'Post Created', detail: 'Page will reload shortly'});
       console.log('Response: ', response);
       window.location.reload();
     })
@@ -301,6 +308,7 @@ export class HomePageComponent {
       });
     }
     else if (btnClicked == 'comment') {
+      this.showComment = true;
       console.log("comment btn clicked")
     }
   }

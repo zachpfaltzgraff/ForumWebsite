@@ -34,10 +34,10 @@ export class HeaderBarComponent {
                 }
             },
             {
-              label: 'Contact Us',
+              label: 'Feedback',
               icon: 'pi pi-phone',
               command: () => {
-                
+                this.router.navigate(['feedback']);
               }
             },
             {

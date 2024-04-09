@@ -1,1 +1,7 @@
-<p>feedback-page works!</p>
+<div class="wrapper">
+    <h1>GIVE US FEEDBACK</h1>
+    <span>*Disclaimer, this form does not do anything as I do not want my inbox spammed with emails</span>
+    <textarea rows="7" cols="30" pInputTextarea placeholder="Give Feedback..." formControlName="body" maxlength="600"></textarea>
+
+    <p-button [rounded]="true" icon="pi pi-send" label="Send" (onClick)="sendMessage()"></p-button>
+</div>

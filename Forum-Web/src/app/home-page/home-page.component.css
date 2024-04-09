@@ -133,7 +133,6 @@ textarea {
     overflow: scroll;
     overflow-x: hidden;
     height: 79vh;
-    margin-top: 10px;
 }
 .comments form input {
     padding-bottom: 0;

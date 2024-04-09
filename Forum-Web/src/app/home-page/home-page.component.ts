@@ -66,21 +66,36 @@ export class HomePageComponent {
     {label: 'Newest',
       icon: 'pi pi-star',
       command: () => {
-        this.contentShown = 0;
+        if (this.accUsername != '') {
+          this.contentShown = 0;
+        }
+        else {
+          this.router.navigate(['login'])
+        }
       }
     },
     {
       label: 'Liked',
       icon: 'pi pi-heart',
       command: () => {
-        this.contentShown = 1;
+        if (this.accUsername != '') {
+          this.contentShown = 1;
+        }
+        else {
+          this.router.navigate(['login'])
+        }
       }
     },
     {
       label: 'Saved',
       icon: 'pi pi-bookmark',
       command: () => {
-        this.contentShown = 2;
+        if (this.accUsername != '') {
+          this.contentShown = 2;
+        }
+        else {
+          this.router.navigate(['login'])
+        }
       }
     },
   ];

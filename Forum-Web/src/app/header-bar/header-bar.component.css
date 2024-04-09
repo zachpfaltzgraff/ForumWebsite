@@ -31,6 +31,9 @@ a {
     margin: 0 20px;
     scale: 1.5;
 }
+a:last-child {
+    margin-left: 30px;
+}
 h1 {
     margin-left: 5px;
     font-size: 40px;
@@ -42,7 +45,7 @@ h1 {
     display: none;
 }
 
-@media only screen and (max-width:800px) {
+@media only screen and (max-width:725px) {
     h1 {
         justify-content: center;
         align-items: center;

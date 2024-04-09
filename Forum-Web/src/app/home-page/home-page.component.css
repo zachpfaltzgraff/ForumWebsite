@@ -140,7 +140,7 @@ textarea {
     margin-bottom: 0;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 725px) {
     p-tabMenu, .post-feed,
     .create-button, .create-post,
     .comments {

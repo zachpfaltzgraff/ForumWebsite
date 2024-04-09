@@ -8,7 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import cdkOutput from '../../../../../ForumWebCDK/output.json';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, timeout } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -60,6 +60,7 @@ export class HomePageComponent {
   isLiked: boolean[] = [];
   isSaved: boolean[] = [];
   showComment: boolean = false;
+  hideComment: boolean = false;
   contentShown: number = 0;
   items: MenuItem[] = [
     {label: 'Newest',
@@ -310,7 +311,20 @@ export class HomePageComponent {
     else if (btnClicked == 'comment') {
       this.showComment = true;
       console.log("comment btn clicked")
+
+      this.commentsForm.patchValue({
+        username: formGroup.value.username,
+        title: formGroup.value.title,
+        comments: formGroup.value.commentArray,
+      });
     }
+  }
+
+  async removeComments() {
+    this.hideComment = true;
+    await new Promise(resolve => setTimeout(resolve, 300));
+    this.hideComment = false;
+    this.showComment = false;
   }
 
   postForm = new FormGroup({
@@ -331,5 +345,11 @@ export class HomePageComponent {
     saveArray: new FormControl([]),
     commentArray: new FormControl([]),
     likeCount: new FormControl(0),
+  })
+
+  commentsForm = new FormGroup({
+    username: new FormControl(''),
+    title: new FormControl(''),
+    comments: new FormControl([]),
   })
 }

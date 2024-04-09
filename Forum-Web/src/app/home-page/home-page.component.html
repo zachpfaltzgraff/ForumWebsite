@@ -103,8 +103,16 @@
         </div>
     </div>
 
-    <div class="comments" *ngIf="showComment">
-        
+    <div class="comments" *ngIf="showComment" 
+    [class.dropDown]="showComment" [class.dropUp]="hideComment">
+        <p-button icon="pi pi-times" [rounded]="true" 
+        [text]="true" severity="danger" (onClick)="removeComments()"></p-button>
+
+        <form action="" [formGroup]="commentsForm">
+            <input type="text" pInputText formControlName="title" readonly/>
+            <input class="username" type="text" formControlName="username" readonly>
+      
+        </form>
     </div>
 </div>
 

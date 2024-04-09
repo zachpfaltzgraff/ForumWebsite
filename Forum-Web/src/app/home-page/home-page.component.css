@@ -135,10 +135,15 @@ textarea {
     height: 79vh;
     margin-top: 10px;
 }
+.comments form input {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
 
 @media only screen and (max-width: 800px) {
     p-tabMenu, .post-feed,
-    .create-button, .create-post {
+    .create-button, .create-post,
+    .comments {
         width: 95vw;
     }
     :host ::ng-deep .p-tabmenu {

@@ -105,44 +105,40 @@ export class HomePageComponent {
   ];
   activeItem: MenuItem = this.items[0];
 
-  async ngOnInit() {
+  ngOnInit() {
     console.log(1)
-    try {
-      this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
-      .pipe(catchError(error => {
-        console.error('Error: ', error);
-        console.log(3)
-        return throwError(error);
-      }))
-      .subscribe(response => {
-        console.log(2)
-        this.userData = response.data;
-        
-        this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
-        this.formGroups.sort((a, b) => {
-          const dateA = a.get('dateCreated')?.value;
-          const dateB = b.get('dateCreated')?.value;
-          return dateB - dateA;
-        });
-  
-        this.formGroups.forEach((item: any, index: number) => {
-          if (this.likeArrayHasUsername(item)) {
-            this.isLiked[index] = true;
-          } else {
-            this.isLiked[index] = false;
-          }
-  
-          if (this.saveArrayHasUsername(item)) {
-            this.isSaved[index] = true;
-          }
-          else {
-            this.isSaved[index] = false;
-          }
-        });
+    this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
+    .pipe(catchError(error => {
+      console.error('Error: ', error);
+      console.log(3)
+      return throwError(error);
+    }))
+    .subscribe(response => {
+      console.log(2)
+      this.userData = response.data;
+      
+      this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
+      this.formGroups.sort((a, b) => {
+        const dateA = a.get('dateCreated')?.value;
+        const dateB = b.get('dateCreated')?.value;
+        return dateB - dateA;
       });
-    } catch (error) {
-      console.log(error)
-    }
+
+      this.formGroups.forEach((item: any, index: number) => {
+        if (this.likeArrayHasUsername(item)) {
+          this.isLiked[index] = true;
+        } else {
+          this.isLiked[index] = false;
+        }
+
+        if (this.saveArrayHasUsername(item)) {
+          this.isSaved[index] = true;
+        }
+        else {
+          this.isSaved[index] = false;
+        }
+      });
+    });
   }
 
   likeArrayHasUsername(item: any) {

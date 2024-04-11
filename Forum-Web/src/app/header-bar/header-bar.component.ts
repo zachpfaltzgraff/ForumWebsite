@@ -52,7 +52,7 @@ export class HeaderBarComponent {
             }
         ]
     },
-];
+  ];
 
   ngOnInit() {
     this.currentAuthenticatedUser();

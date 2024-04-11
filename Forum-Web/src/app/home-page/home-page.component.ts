@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { getCurrentUser } from 'aws-amplify/auth';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -16,6 +15,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { MenuItem } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { CredentailsService } from '../../../credentials.service';
 
 @Component({
   selector: 'app-home-page',
@@ -47,9 +47,9 @@ export class HomePageComponent {
   constructor(private router: Router, 
     private http: HttpClient, 
     private formBuilder: FormBuilder,
-    private messageService: MessageService) {};
+    private messageService: MessageService,
+    private credentialService: CredentailsService) {};
 
-  accUsername: string = '';
   showCreatePost: boolean = false;
   showExistingPost: boolean = false;
   hideCreatePost: boolean = false;
@@ -70,7 +70,7 @@ export class HomePageComponent {
     {label: 'Newest',
       icon: 'pi pi-star',
       command: () => {
-        if (this.accUsername != '') {
+        if (this.credentialService.getLogin() == true) {
           this.contentShown = 0;
         }
         else {
@@ -82,7 +82,7 @@ export class HomePageComponent {
       label: 'Liked',
       icon: 'pi pi-heart',
       command: () => {
-        if (this.accUsername != '') {
+        if (this.credentialService.getLogin() == true) {
           this.contentShown = 1;
         }
         else {
@@ -94,7 +94,7 @@ export class HomePageComponent {
       label: 'Saved',
       icon: 'pi pi-bookmark',
       command: () => {
-        if (this.accUsername != '') {
+        if (this.credentialService.getLogin() == true) {
           this.contentShown = 2;
         }
         else {
@@ -106,53 +106,49 @@ export class HomePageComponent {
   activeItem: MenuItem = this.items[0];
 
   async ngOnInit() {
+    console.log(1)
     try {
-      const {username, userId, signInDetails } = await getCurrentUser();
-      console.log(`The username: ${username}`);
-      console.log(`The userId: ${userId}`);
-      console.log(`The signInDetails: ${signInDetails}`);
-      this.accUsername = `${username}`;
-    } catch (err) {
-      this.accUsername = '';
+      this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
+      .pipe(catchError(error => {
+        console.error('Error: ', error);
+        console.log(3)
+        return throwError(error);
+      }))
+      .subscribe(response => {
+        console.log(2)
+        this.userData = response.data;
+        
+        this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
+        this.formGroups.sort((a, b) => {
+          const dateA = a.get('dateCreated')?.value;
+          const dateB = b.get('dateCreated')?.value;
+          return dateB - dateA;
+        });
+  
+        this.formGroups.forEach((item: any, index: number) => {
+          if (this.likeArrayHasUsername(item)) {
+            this.isLiked[index] = true;
+          } else {
+            this.isLiked[index] = false;
+          }
+  
+          if (this.saveArrayHasUsername(item)) {
+            this.isSaved[index] = true;
+          }
+          else {
+            this.isSaved[index] = false;
+          }
+        });
+      });
+    } catch (error) {
+      console.log(error)
     }
-
-    this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
-    .pipe(catchError(error => {
-      console.error('Error: ', error);
-      return throwError(error);
-    }))
-    .subscribe(response => {
-      this.userData = response.data;
-      console.log(response.data);
-      
-      this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
-      this.formGroups.sort((a, b) => {
-        const dateA = a.get('dateCreated')?.value;
-        const dateB = b.get('dateCreated')?.value;
-        return dateB - dateA;
-      });
-
-      this.formGroups.forEach((item: any, index: number) => {
-        if (this.likeArrayHasUsername(item)) {
-          this.isLiked[index] = true;
-        } else {
-          this.isLiked[index] = false;
-        }
-
-        if (this.saveArrayHasUsername(item)) {
-          this.isSaved[index] = true;
-        }
-        else {
-          this.isSaved[index] = false;
-        }
-      });
-    });
   }
 
   likeArrayHasUsername(item: any) {
     const likeArray = item.value.likeArray.L;
     for (let i = 0; i < likeArray.length; i++) {
-      if (likeArray[i].S == this.accUsername) {
+      if (likeArray[i].S == this.credentialService.getUsername()) {
           return true;
       }
     }
@@ -162,7 +158,7 @@ export class HomePageComponent {
   saveArrayHasUsername(item: any) {
     const saveArray = item.value.saveArray.L;
     for (let i = 0; i < saveArray.length; i++) {
-      if (saveArray[i].S == this.accUsername) {
+      if (saveArray[i].S == this.credentialService.getUsername()) {
           return true;
       }
     }
@@ -189,7 +185,7 @@ export class HomePageComponent {
     const date = new Date();
     this.loading = true;
     const formData = {
-      username: this.accUsername,
+      username: this.credentialService.getUsername(),
       title: this.postForm.value.title,
       body: this.postForm.value.body,
       dateCreated: date,
@@ -222,7 +218,7 @@ export class HomePageComponent {
   }
 
   async toggleCreatePost() {
-    if(this.accUsername == '') {
+    if(this.credentialService.getLogin() == false) {
       this.router.navigate(['/login']);
     }
     else {
@@ -231,7 +227,7 @@ export class HomePageComponent {
   }
 
   async postBtnClick(formGroup: FormGroup, btnClicked: String, index: number) {
-    if(this.accUsername == '') {
+    if(this.credentialService.getLogin() == false) {
       this.router.navigate(['/login']);
       return;
     }
@@ -245,7 +241,7 @@ export class HomePageComponent {
         UUID: formGroup.value.UUID,
         dateCreated: formGroup.value.dateCreated,
         likeCount: formGroup.value.likeCount,
-        accountID: this.accUsername,
+        accountID: this.credentialService.getUsername(),
       }
 
       console.log(formData)
@@ -291,7 +287,7 @@ export class HomePageComponent {
       const formData = {
         UUID: formGroup.value.UUID,
         dateCreated: formGroup.value.dateCreated,
-        accountID: this.accUsername,
+        accountID: this.credentialService.getUsername(),
       }
       console.log(formData)
 
@@ -358,7 +354,7 @@ export class HomePageComponent {
     const formData = {
       uuid: this.currentUUID,
       dateCreated: this.currentDate,
-      username: this.accUsername,
+      username: this.credentialService.getUsername(),
       comment: commentForm.value.comment,
     }
     console.log(formData)

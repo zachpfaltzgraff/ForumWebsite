@@ -10,7 +10,8 @@ import { CommonModule } from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { signUp } from 'aws-amplify/auth';
 import { confirmSignUp, type ConfirmSignUpInput } from 'aws-amplify/auth';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
+import { CredentailsService } from '../../../credentials.service';
 
 type SignUpParameters = {
   username: string;
@@ -34,7 +35,9 @@ type SignUpParameters = {
   styleUrl: './login-page.component.css',
 })
 export class LoginPageComponent {
-  constructor(private messageService: MessageService, private router: Router) {}
+  constructor(private messageService: MessageService, 
+    private router: Router,
+    private credentialService: CredentailsService) {}
 
   showCode: boolean = false;
   
@@ -47,9 +50,8 @@ export class LoginPageComponent {
         password: this.signupForm.value.password ?? '',
       }
       console.log(formData);
-
+      this.credentialService.setUsername(formData.username);
       await handleSignUp({ username: formData.username, password: formData.password, email: formData.email});
-      
       this.showCode = true;
 
     } else {
@@ -66,6 +68,8 @@ export class LoginPageComponent {
       }
 
       await handleSignIn({username: formData.username, password: formData.password})
+
+      this.credentialService.setLogin(true);
 
       this.messageService.add({ key: 'bc', severity: 'success', summary: 'Signed In', detail: 'Page will redirect in 1 second'});
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -87,12 +91,15 @@ export class LoginPageComponent {
       console.log("Confirmation complete")
       console.log(formData.username + ' ' + this.signupForm.value.password)
       await handleSignIn({username: formData.username, password: this.signupForm.value.password ?? ''})
+      this.credentialService.setLogin(true);
+      this.credentialService.setUsername(formData.username);
       this.messageService.add({ key: 'bc', severity: 'success', summary: 'Signed Up', detail: 'Will redirect in 1 second' });
       await new Promise(resolve => setTimeout(resolve, 1500));
       this.router.navigate(['']);
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
+      this.credentialService.setLogin(false);
     }
   }
 

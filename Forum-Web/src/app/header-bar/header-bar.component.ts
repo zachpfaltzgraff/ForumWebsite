@@ -44,7 +44,7 @@ export class HeaderBarComponent {
                 label: 'About Us',
                 icon: 'pi pi-question-circle',
                 command: () => {
-                  
+                  this.router.navigate(['about']);
                 }
             }
         ]

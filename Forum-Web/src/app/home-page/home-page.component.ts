@@ -107,7 +107,8 @@ export class HomePageComponent {
 
   ngOnInit() {
     console.log(1)
-    this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data')
+    console.log(this.apiEndpoint + 'forum/get-forum-data' + `?a=${Math.random()}`)
+    this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data' + `?a=${Math.random()}`)
     .pipe(catchError(error => {
       console.error('Error: ', error);
       console.log(3)

@@ -1,0 +1,36 @@
+.wrapper {
+    margin-top: 75px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.content {
+    margin-top: 50px;
+    width: 700px;
+    height: fit-content;
+    border-radius: 30px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+    background-color: #0f0c29; 
+}
+.words {
+    text-align: center;
+    width: 600px;
+    margin: 40px;
+}
+span {
+    font-size: 20px;
+}
+h1 {
+    border-bottom: 2px solid white;
+}
+
+@media only screen and (max-width:725px) {
+    .content {
+        width: 95vw;
+    }
+    .words {
+        width: 80vw;
+    }
+}

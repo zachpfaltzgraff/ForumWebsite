@@ -185,6 +185,9 @@ textarea {
     .post-wrapper input .username {
         font-size: 75%;
     }
+    .post-wrapper .title {
+        font-size: 150%;
+    }
 
     .comment-wrapper textarea, .comment-wrapper .existing-comments {
         width: 75vw;

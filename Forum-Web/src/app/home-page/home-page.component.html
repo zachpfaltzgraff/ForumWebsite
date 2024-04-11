@@ -108,11 +108,22 @@
         <p-button icon="pi pi-times" [rounded]="true" 
         [text]="true" severity="danger" (onClick)="removeComments()"></p-button>
 
-        <form action="" [formGroup]="commentsForm">
-            <input type="text" pInputText formControlName="title" readonly/>
-            <input class="username" type="text" formControlName="username" readonly>
-      
-        </form>
+        <div class="comment-wrapper">
+            <form [formGroup]="commentsForm">
+                <input type="text" pInputText formControlName="title" readonly/>
+                <input class="username" type="text" formControlName="username" readonly/>
+                
+                <form [formGroup]="newComment">
+                    <textarea rows="7" cols="30" pInputTextarea placeholder="Add Comment..." formControlName="comment" maxlength="200"></textarea>
+                    <p-button icon="" [rounded]="true" [outlined]="true" severity="primary" label="Post" (onClick)="sendComment(newComment)"></p-button>
+                </form>
+            
+                <div *ngFor="let comment of commentArray" class="existing-comments">
+                    <span class="username">{{ comment.username }}</span>
+                    <span class="comment">{{ comment.comment }}</span>
+                </div>      
+            </form>
+        </div>
     </div>
 </div>
 

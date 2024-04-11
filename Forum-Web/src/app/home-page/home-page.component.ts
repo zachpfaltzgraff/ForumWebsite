@@ -57,11 +57,15 @@ export class HomePageComponent {
   userData: any;
   loading: boolean = false;
   formGroups: FormGroup[] = [];
+  commentArray: { username: string, comment: string }[] = [];
   isLiked: boolean[] = [];
   isSaved: boolean[] = [];
   showComment: boolean = false;
   hideComment: boolean = false;
   contentShown: number = 0;
+  currentUUID: string = '';
+  currentDate: string = '';
+
   items: MenuItem[] = [
     {label: 'Newest',
       icon: 'pi pi-star',
@@ -326,13 +330,51 @@ export class HomePageComponent {
     else if (btnClicked == 'comment') {
       this.showComment = true;
       console.log("comment btn clicked")
+      
 
+      this.currentUUID = formGroup.value.UUID;
+      this.currentDate = formGroup.value.dateCreated;
       this.commentsForm.patchValue({
-        username: formGroup.value.username,
         title: formGroup.value.title,
-        comments: formGroup.value.commentArray,
+        username: formGroup.value.username,
       });
+
+      this.commentArray = [];
+      for (let index = formGroup.value.commentArray.L.length - 1; index >= 0; index--) {
+        const commentItem = formGroup.value.commentArray.L[index].M;
+        this.commentArray.push({
+          username: "●" + commentItem.username.S,
+          comment: commentItem.comment.S
+        });
+      }
     }
+  }
+
+  async sendComment(commentForm: FormGroup) {
+    if (commentForm.value.comment == '') {
+      this.messageService.add({ key: 'tc', severity: 'error', summary: 'Error', detail: 'Cannot post blank comment'});
+      return;
+    }
+    const formData = {
+      uuid: this.currentUUID,
+      dateCreated: this.currentDate,
+      username: this.accUsername,
+      comment: commentForm.value.comment,
+    }
+    console.log(formData)
+
+    this.http.put(this.apiEndpoint + 'forum/comment-put', formData)
+    .pipe(
+      catchError(error => {
+        console.error('Error: ', error);
+        return throwError(error);
+      })
+    )
+    .subscribe(response => {
+      console.log('Response: ', response);
+    });
+
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Comment Posted', detail: 'Changes will be seen when refreshed'});
   }
 
   async removeComments() {
@@ -363,8 +405,12 @@ export class HomePageComponent {
   })
 
   commentsForm = new FormGroup({
-    username: new FormControl(''),
+    username: new FormControl([]),
     title: new FormControl(''),
     comments: new FormControl([]),
+  })
+
+  newComment = new FormGroup({
+    comment: new FormControl(''),
   })
 }

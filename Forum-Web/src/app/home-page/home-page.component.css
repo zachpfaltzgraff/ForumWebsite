@@ -78,7 +78,7 @@ input{
     border: none;
     background-color: #0f0c29; 
 }
-input:focus, textarea:focus {
+input:focus, .create-post textarea:focus, .post-wrapper textarea:focus {
     outline: none;
     outline-style: none;
     box-shadow: none;
@@ -130,13 +130,43 @@ textarea {
     border-radius: 30px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
     background-color: #0f0c29; 
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
     height: 79vh;
 }
-.comments form input {
+.comment-wrapper {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+.comment-wrapper form input {
     padding-bottom: 0;
     margin-bottom: 0;
+}
+.comment-wrapper .existing-comments {
+    margin-right: 10%;
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    word-wrap: break-word;
+}
+.comment-wrapper .comment {
+    margin-left: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.comment-wrapper .username {
+    font-size: 20px;
+}
+.comment-wrapper .existing-comments .username {
+    margin: 0;
+    font-size: 20px;
+}
+.comment-wrapper textarea {
+    width: 600px;
+    height: 85px;
+    margin-bottom: 10px;
+}
+.comment-wrapper p-button {
+    margin-left: 10px;
 }
 
 @media only screen and (max-width: 725px) {
@@ -150,10 +180,14 @@ textarea {
     }
 
     input {
-        font-size: 150%;
+        font-size: 225%;
     }
     .post-wrapper input .username {
         font-size: 75%;
+    }
+
+    .comment-wrapper textarea, .comment-wrapper .existing-comments {
+        width: 75vw;
     }
 }
 

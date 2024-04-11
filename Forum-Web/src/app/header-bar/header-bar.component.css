@@ -18,7 +18,7 @@
     width: fit-content;
     margin-top: 10px;
 }
-.right{
+p-button{
     margin: 10px;
     align-items: center;
     justify-content: center;
@@ -52,9 +52,8 @@ h1 {
         height: 28.5px;
         width: 100vw;
     }
-    .right p-button{
-        margin: 25px;
-        margin-right: 50px;
+    p-button{
+        scale: 0.8;
     }
     .center {
         display: none;

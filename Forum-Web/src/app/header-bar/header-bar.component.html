@@ -7,12 +7,7 @@
         <a href="/feedback">Feedback</a>
     </div>
 
-    <div class="right" [hidden]="isSignedIn">
-        <p-button label="Sign Up" [outlined]="true" (onClick)="handleClick()"></p-button>
-    </div>
-    <div class="right" [hidden]="!isSignedIn">
-        <p-button label="Sign Out" [outlined]="true" (onClick)="handleClick()"></p-button>
-    </div>
+    <p-button [label]="isSignedIn ? 'Sign Out' : 'Sign In'" [outlined]="true" (onClick)="handleClick()"></p-button>
 
     <div class="hamburger">
         <p-menu #menu [model]="items" [popup]="true"></p-menu>

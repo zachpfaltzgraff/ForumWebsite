@@ -29,7 +29,7 @@
                     <label for="checkbox" class="signuplabel" aria-hidden="true">Verify</label>
                     <p>A verification code was sent to your email</p>
     
-                    <p-inputOtp [integerOnly]="true" [length]="6" formControlName="code"></p-inputOtp>
+                    <p-inputOtp [integerOnly]="true" [length]="6" formControlName="code" type="number" inputmode="numeric" pattern="[0-9]*"></p-inputOtp>
     
                     <p-button type="submit" label="Confirm"></p-button>
                 </form>
@@ -45,7 +45,8 @@
                 </p-floatLabel>
     
                 <p-floatLabel>
-                    <p-password [toggleMask]="true" formControlName="password"></p-password>
+                    <p-password [toggleMask]="true" formControlName="password" 
+                    [feedback]=false></p-password>
                     <label for="email">Password</label>
                 </p-floatLabel>
     

@@ -87,6 +87,9 @@ export class LoginPageComponent {
       console.log("Confirmation complete")
       console.log(formData.username + ' ' + this.signupForm.value.password)
       await handleSignIn({username: formData.username, password: this.signupForm.value.password ?? ''})
+      this.messageService.add({ key: 'bc', severity: 'success', summary: 'Signed Up', detail: 'Will redirect in 1 second' });
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      this.router.navigate(['']);
       
     } else {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });

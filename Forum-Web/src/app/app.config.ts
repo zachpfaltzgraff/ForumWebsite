@@ -4,19 +4,17 @@ import { MessageService } from 'primeng/api';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { CredentailsService } from '../../credentials.service';
 
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
-
-import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(),
+  providers: [provideRouter(routes),
   MessageService, 
   BrowserAnimationsModule, 
   CommonModule, 
   BrowserModule, 
   provideAnimations(),
-  AmplifyAuthenticatorModule
+  CredentailsService
   ]
 };

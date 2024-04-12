@@ -13,6 +13,10 @@ bootstrapApplication(AppComponent, appConfig)
           userPoolId: cdkOutput.CognitoStack.PoolId,
           userPoolClientId: cdkOutput.CognitoStack.ClientId,
           signUpVerificationMethod: 'code',
+          loginWith: {
+            username: true,
+            email: true,
+          }
         }
       }
     }); 

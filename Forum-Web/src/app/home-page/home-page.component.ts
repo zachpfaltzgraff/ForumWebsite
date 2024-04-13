@@ -106,16 +106,13 @@ export class HomePageComponent {
   activeItem: MenuItem = this.items[0];
 
   ngOnInit() {
-    console.log(1)
     console.log(this.apiEndpoint + 'forum/get-forum-data' + `?a=${Math.random()}`)
     this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data' + `?a=${Math.random()}`)
     .pipe(catchError(error => {
       console.error('Error: ', error);
-      console.log(3)
       return throwError(error);
     }))
     .subscribe(response => {
-      console.log(2)
       this.userData = response.data;
       
       this.formGroups = this.userData.map((item: any) => this.createFormGroup(item));
@@ -125,20 +122,22 @@ export class HomePageComponent {
         return dateB - dateA;
       });
 
-      this.formGroups.forEach((item: any, index: number) => {
-        if (this.likeArrayHasUsername(item)) {
-          this.isLiked[index] = true;
-        } else {
-          this.isLiked[index] = false;
-        }
-
-        if (this.saveArrayHasUsername(item)) {
-          this.isSaved[index] = true;
-        }
-        else {
-          this.isSaved[index] = false;
-        }
-      });
+      if (this.credentialService.getUsername() != '') {
+        this.formGroups.forEach((item: any, index: number) => {
+          if (this.likeArrayHasUsername(item)) {
+            this.isLiked[index] = true;
+          } else {
+            this.isLiked[index] = false;
+          }
+  
+          if (this.saveArrayHasUsername(item)) {
+            this.isSaved[index] = true;
+          }
+          else {
+            this.isSaved[index] = false;
+          }
+        });
+      }
     });
   }
 

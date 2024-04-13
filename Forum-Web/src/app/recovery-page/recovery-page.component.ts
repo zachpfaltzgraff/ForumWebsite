@@ -71,7 +71,7 @@ export class RecoveryPageComponent {
         username: this.recoveryForm.value.email ?? '', 
         confirmationCode: String(this.recoveryForm.value.code),
         newPassword: this.recoveryForm.value.password ?? '',
-      }, this.messageService)
+      }, this.messageService, this.router)
     }
   }
 
@@ -98,10 +98,11 @@ async function handleConfirmResetPassword({
   username,
   confirmationCode,
   newPassword
-}: ConfirmResetPasswordInput, messageService: MessageService) {
+}: ConfirmResetPasswordInput, messageService: MessageService, router: Router) {
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
-    messageService.add({ key: 'bc', severity: 'success', summary: 'Error', detail: 'Password reset successfully' });
+    messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: 'Password reset successfully' });
+    router.navigate(['']);
   } catch (error) {
     console.log(error);
     alert("Error: " + error + "\n Please try again later");

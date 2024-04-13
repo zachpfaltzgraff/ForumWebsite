@@ -44,7 +44,6 @@
     transform: translateY(-150px);
 }
 
-
 .code-confirm {
     color: #463f94;
     padding: 5%;
@@ -83,6 +82,7 @@ p-floatlabel {
     margin-top: 7%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 label {
@@ -93,8 +93,29 @@ p-password {
     padding: 0px;
 }
 
+.code-grabber input {
+    text-align: center;
+}
+
+.code-grabber {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 input {
     width: 278px;
+}
+
+.forgot {
+    display: flex;
+    height: 238px;
+    align-items: center;
+    justify-content: center;
+}
+a {
+    text-decoration: none;
+    color: #463f94;
 }
 
 #checkbox {

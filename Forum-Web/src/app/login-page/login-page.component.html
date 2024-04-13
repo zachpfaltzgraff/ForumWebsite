@@ -21,7 +21,7 @@
                     <label for="email">Password</label>
                 </p-floatLabel>
     
-                <p-button type="submit" label="Sign Up"></p-button>
+                <p-button [outlined]="true" [raised]="true" type="submit" label="Sign Up"></p-button>
             </form>
     
             <div class="code-confirm" [ngStyle]="{'opacity': showCode ? 1 : 0, 'visibility': showCode ? 'visible' : 'hidden'}">
@@ -29,9 +29,12 @@
                     <label for="checkbox" class="signuplabel" aria-hidden="true">Verify</label>
                     <p>A verification code was sent to your email</p>
     
-                    <input pInputText formControlName="code" inputmode="numeric" pattern="[0-9]*">
+                    <div class="code-grabber">
+                        <input [maxlength]="6" pInputText
+                        inputId="integeronly" formControlName="code"/>
+                    </div>
     
-                    <p-button type="submit" label="Confirm"></p-button>
+                    <p-button type="submit" label="Confirm" [outlined]="true" [raised]="true"></p-button>
                 </form>
             </div>
         </div>
@@ -50,8 +53,12 @@
                     <label for="email">Password</label>
                 </p-floatLabel>
     
-                <p-button type="submit" label="Login"></p-button>
+                <p-button [outlined]="true" [raised]="true" type="submit" label="Login"></p-button>
             </form>
+
+            <div class="forgot">
+                <a href="/recovery">Forgot your Password?</a>
+            </div>
         </div>
     
         <p-toast position="bottom-center" key="bc"></p-toast>

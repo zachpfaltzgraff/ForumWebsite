@@ -1,0 +1,87 @@
+.wrapper {
+    margin-top: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box {
+    width: 350px;
+    height: 500px;
+    background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
+    overflow: hidden;
+    box-shadow: 0px 20px 50px black;
+    border-radius: 16px;
+    padding: 1%;
+}
+
+.recovery-label {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 200%;
+    font-weight: bold;
+    margin-top: 25px;
+}
+.recovery-label label {
+    border-bottom: 2px solid white;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form .header {
+    font-size: 120%;
+    margin: 15px 0px;
+}
+
+.disclaimer {
+    margin-top: 15px;
+    width: 250px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    font-size: 90%;
+}
+
+.code-grabber input {
+    text-align: center;
+}
+
+p-button {
+    margin-top: 15px;
+}
+
+.password-grabber p-floatLabel{
+    margin-top: 25px;
+}
+
+@keyframes goIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+@keyframes goOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+      }
+}
+
+.goIn {
+    animation: goIn 0.6s ease-in;
+}
+.goOut {
+    animation: goOut 0.6s ease-out;
+}

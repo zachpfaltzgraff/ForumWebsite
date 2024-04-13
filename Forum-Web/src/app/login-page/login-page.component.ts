@@ -5,10 +5,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { InputOtpModule } from 'primeng/inputotp';
 import { CommonModule } from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { signUp } from 'aws-amplify/auth';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { confirmSignUp, type ConfirmSignUpInput } from 'aws-amplify/auth';
 import { Router } from '@angular/router';
 import { CredentailsService } from '../../../credentials.service';
@@ -29,7 +29,7 @@ type SignUpParameters = {
     PasswordModule,
     ToastModule,
     CommonModule,
-    InputOtpModule
+    InputNumberModule
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
@@ -42,21 +42,25 @@ export class LoginPageComponent {
   showCode: boolean = false;
   
   async onSignUp() {
-    if (this.signupForm.valid) {
+    let length = this.signupForm.value.password?.length ?? 0;
+    if (this.signupForm.valid && length >= 8) {
       console.log("valid form");
       const formData = {
         username: this.signupForm.value.username ?? '',
         email: this.signupForm.value.email ?? '',
         password: this.signupForm.value.password ?? '',
       }
-      console.log(formData);
       this.credentialService.setUsername(formData.username);
       await handleSignUp({ username: formData.username, password: formData.password, email: formData.email});
       this.showCode = true;
 
-    } else {
-      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Invalid Form' });
+    } 
+    else if (length <= 0){
+      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'invalid Form' });
     }
+    else if (length < 8){
+      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'Password Must be 8 Characters' });
+    } 
   }
 
   async onLogin() {
@@ -84,7 +88,7 @@ export class LoginPageComponent {
     if (this.confirmCodeForm.valid) {
       const formData = {
         username: this.signupForm.value.username ?? '',
-        code: this.confirmCodeForm.value.code ?? '',
+        code: String(this.confirmCodeForm.value.code) ?? '',
       }
 
       await handleSignUpConfirmation({username: formData.username, confirmationCode: formData.code});

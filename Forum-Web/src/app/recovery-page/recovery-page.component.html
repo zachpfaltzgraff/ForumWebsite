@@ -1,0 +1,59 @@
+<div class="wrapper">
+    <div class="box">
+        <div class="recovery-label">
+            <label aria-hidden="true">Recovery</label>
+        </div>
+
+        <div class="email-grabber" [hidden]="showCode" [class.goOut]="showCode">
+            <form action="" [formGroup]="recoveryForm" (ngSubmit)="getEmail()">
+                <label class="header" for="">Enter your Email</label>
+    
+                <p-floatLabel>
+                    <input id="email" type="text" pInputText formControlName="email"/>
+                    <label for="username">Email</label>
+                </p-floatLabel>
+    
+                <div class="disclaimer">
+                    <span>If there is an account with your email, a code will be sent to your email</span>
+                </div>
+    
+                <p-button type="submit" [outlined]="true" [raised]="true" label="Submit"></p-button>
+            </form>
+        </div>
+
+        <div class="code-grabber" [hidden]="!showCode || showPassword" [class.goIn]="showCode">
+            <form action="" [formGroup]="recoveryForm" (ngSubmit)="getCode()">
+                <label class="header" for="">Enter the Code</label>
+
+                <input [maxlength]="6" pInputText
+                inputId="integeronly" formControlName="code"/>
+
+                <div class="disclaimer">
+                    <span>A 6-digit verification code has been sent to your email</span>
+                </div>
+    
+                <p-button type="submit" [outlined]="true" [raised]="true" label="Submit"></p-button>
+            </form>
+        </div>
+
+        <div class="password-grabber" [hidden]="!showPassword" [class.goIn]="showCode">
+            <form action="" [formGroup]="recoveryForm" (ngSubmit)="getPassword()">
+                <label class="header" for="">Enter New Password</label>
+
+                <p-floatLabel>
+                    <p-password [toggleMask]="true" formControlName="password"></p-password>
+                    <label for="email">Password</label>
+                </p-floatLabel>
+
+                <p-floatLabel>
+                    <p-password [toggleMask]="true" formControlName="password2"></p-password>
+                    <label for="email">Verify Password</label>
+                </p-floatLabel>
+    
+                <p-button type="submit" [outlined]="true" [raised]="true" label="Submit"></p-button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<p-toast position="bottom-center" key="bc"></p-toast>

@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { CredentailsService } from '../../credentials.service';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { routes } from './app.routes';
 
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
   CommonModule, 
   BrowserModule, 
   provideAnimations(),
-  CredentailsService
+  CredentailsService,
+  provideHttpClient(withFetch())
   ]
 };

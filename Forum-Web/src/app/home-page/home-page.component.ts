@@ -106,7 +106,6 @@ export class HomePageComponent {
   activeItem: MenuItem = this.items[0];
 
   ngOnInit() {
-    console.log(this.apiEndpoint + 'forum/get-forum-data' + `?a=${Math.random()}`)
     this.http.get<any>(this.apiEndpoint + 'forum/get-forum-data' + `?a=${Math.random()}`)
     .pipe(catchError(error => {
       console.error('Error: ', error);

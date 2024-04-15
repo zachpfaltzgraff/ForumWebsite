@@ -58,7 +58,7 @@ export class HeaderBarComponent {
     this.currentAuthenticatedUser();
   }
 
-  isSignedIn() {
+  isSignedIn(): boolean {
     return this.credentialService.getLogin();
   }
 

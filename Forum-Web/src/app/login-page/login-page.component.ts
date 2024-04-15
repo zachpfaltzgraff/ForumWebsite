@@ -11,6 +11,7 @@ import { signUp } from 'aws-amplify/auth';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { confirmSignUp, type ConfirmSignUpInput } from 'aws-amplify/auth';
 import { Router } from '@angular/router';
+import { signIn, type SignInInput } from 'aws-amplify/auth';
 import { CredentailsService } from '../../../credentials.service';
 
 type SignUpParameters = {
@@ -160,8 +161,6 @@ async function handleSignUpConfirmation({
     console.log('error confirming sign up', error);
   }
 }
-
-import { signIn, type SignInInput } from 'aws-amplify/auth';
 
 async function handleSignIn({ username, password }: SignInInput) {
   try {

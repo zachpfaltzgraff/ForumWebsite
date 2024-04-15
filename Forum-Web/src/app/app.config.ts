@@ -10,13 +10,14 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes),
-  MessageService, 
-  BrowserAnimationsModule, 
-  CommonModule, 
-  BrowserModule, 
-  provideAnimations(),
-  CredentailsService,
-  provideHttpClient(withFetch())
+  providers: [
+    provideRouter(routes),
+    MessageService, 
+    BrowserAnimationsModule, 
+    CommonModule, 
+    BrowserModule, 
+    provideAnimations(),
+    CredentailsService,
+    provideHttpClient(withFetch())
   ]
 };
